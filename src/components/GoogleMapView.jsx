@@ -248,36 +248,6 @@ export default function GoogleMapView({ days, activeDay, focusedItem }) {
         </div>
       </div>
 
-      {/* Spot Selector Carousel Chips */}
-      <div className="px-3 py-2 bg-slate-800/80 border-b border-slate-700/60 overflow-x-auto no-scrollbar flex items-center gap-1.5 z-10">
-        {osakaSpots.map((spot, idx) => {
-          const isSelected = selectedSpot && selectedSpot.id === spot.id
-
-          return (
-            <button
-              key={spot.id}
-              onClick={() => setSelectedSpot(spot)}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs whitespace-nowrap transition active:scale-95 ${
-                isSelected
-                  ? 'bg-rose-500 text-white font-bold shadow-md shadow-rose-500/30 ring-1 ring-rose-300'
-                  : 'bg-slate-700/60 hover:bg-slate-700 text-slate-300'
-              }`}
-            >
-              <span
-                className={`w-4 h-4 rounded-full text-[10px] font-black flex items-center justify-center ${
-                  isSelected ? 'bg-white text-rose-600' : 'bg-slate-600 text-slate-200'
-                }`}
-              >
-                {spot.seqNumber || idx + 1}
-              </span>
-              <span className="truncate max-w-[100px] sm:max-w-[140px]">
-                {spot.title}
-              </span>
-            </button>
-          )
-        })}
-      </div>
-
       {/* Interactive Map View */}
       <div className="relative flex-1 w-full h-full bg-slate-950">
         <div ref={mapContainerRef} className="w-full h-full min-h-[300px] z-0" />
