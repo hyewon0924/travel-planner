@@ -1,0 +1,862 @@
+{
+  "tripInfo": {
+    "title": "오사카 2박 3일 여행",
+    "destination": "오사카, 일본 🇯🇵",
+    "startDate": "2026-08-29",
+    "endDate": "2026-08-31",
+    "currency": "JPY",
+    "currencySymbol": "¥",
+    "totalDays": 3,
+    "hotel": {
+      "name": "호텔 케이한 요도야바시 (Hotel Keihan Yodoyabashi)",
+      "station": "요도야바시역 / 기타하마역",
+      "coords": { "lat": 34.6896, "lng": 135.5057 }
+    }
+  },
+  "days": [
+    {
+      "day": 1,
+      "date": "8.29(토)",
+      "fullDate": "2026-08-29",
+      "title": "오사카 입국 & 신사이바시·도톤보리 투어",
+      "description": "간사이공항 도착 후 숙소 체크인 및 신사이바시/도톤보리 핫플레이스 쇼핑과 저녁",
+      "themeColor": "#3b82f6",
+      "schedules": [
+        {
+          "id": "d1-1",
+          "time": "07:00",
+          "timePeriod": "오전",
+          "duration": null,
+          "title": "인천공항 집합",
+          "category": "flight",
+          "location": "인천국제공항 제1여객터미널",
+          "coords": { "lat": 37.4602, "lng": 126.4407 },
+          "description": "공항 집합 및 출국 수속 준비",
+          "bullets": [
+            "여권, 포켓와이파이/eSIM, 환전 엔화 확인",
+            "비짓재팬 웹 사전 등록 QR 코드 준비"
+          ],
+          "links": [
+            { "label": "비짓재팬 웹(Visit Japan Web)", "url": "https://www.vjw.digital.go.jp/", "type": "info" }
+          ],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d1-2",
+          "time": "09:15",
+          "timePeriod": "오전",
+          "duration": null,
+          "title": "인천공항 제1터미널 출발",
+          "category": "flight",
+          "location": "인천국제공항 ➔ 간사이국제공항",
+          "coords": { "lat": 37.4602, "lng": 126.4407 },
+          "description": "이스타항공 ZE611 탑승 (인천 ➔ 간사이)",
+          "bullets": [
+            "항공편: 이스타항공 ZE611",
+            "비짓재팬 사전등록 확인"
+          ],
+          "links": [],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d1-3",
+          "time": "11:10",
+          "timePeriod": "오전",
+          "duration": null,
+          "title": "간사이공항 도착",
+          "category": "flight",
+          "location": "간사이 국제공항 제1터미널",
+          "coords": { "lat": 34.4347, "lng": 135.2441 },
+          "description": "입국 수속 및 짐 찾기, 난카이 전철 탑승장으로 이동",
+          "bullets": [
+            "입국 심사(비짓재팬 QR 스캔)",
+            "난카이 티켓 창구/발권기 이동"
+          ],
+          "links": [],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d1-4",
+          "time": "11:20",
+          "timePeriod": "오전",
+          "duration": "45분",
+          "title": "난카이 공항급행 탑승",
+          "category": "transit",
+          "location": "간사이공항역 ➔ 난바역",
+          "coords": { "lat": 34.6629, "lng": 135.5023 },
+          "description": "간사이공항 ➔ 난바역 공항급행 열차 탑승",
+          "bullets": [
+            "급행 출발 시간표: 11:39, 11:56, 12:09",
+            "난바역까지 약 45분 소요"
+          ],
+          "links": [],
+          "cost": 970,
+          "costNote": "1인 970엔"
+        },
+        {
+          "id": "d1-5",
+          "time": "12:20",
+          "timePeriod": "오후",
+          "duration": "15분",
+          "title": "숙소 이동 및 짐 보관",
+          "category": "hotel",
+          "location": "호텔 케이한 요도야바시",
+          "coords": { "lat": 34.6896, "lng": 135.5057 },
+          "description": "[미도스지선] 난바역 ➔ 요도야바시역 이동 후 숙소 짐 보관",
+          "bullets": [
+            "미도스지선 지하철 190엔",
+            "호텔 프론트에 캐리어 보관 요청"
+          ],
+          "links": [],
+          "cost": 190,
+          "costNote": "지하철 190엔"
+        },
+        {
+          "id": "d1-6",
+          "time": "12:30",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "점심: 스시 토토긴 요도야바시점",
+          "category": "food",
+          "location": "스시 토토긴 요도야바시점",
+          "coords": { "lat": 34.6908, "lng": 135.5028 },
+          "description": "숙소 도보 5분 거리의 신선한 스시 맛집",
+          "bullets": [
+            "숙소 도보 5분",
+            "테이블 위 QR 코드로 한글 메뉴판 주문 가능"
+          ],
+          "links": [
+            { "label": "구글맵 바로가기", "url": "https://maps.app.goo.gl/TuEuvi1iqs5rkyA49", "type": "map" }
+          ],
+          "cost": 0,
+          "costNote": "식사비 별도"
+        },
+        {
+          "id": "d1-7",
+          "time": "13:30",
+          "timePeriod": "오후",
+          "duration": "10분",
+          "title": "신사이바시 이동",
+          "category": "transit",
+          "location": "요도야바시역 ➔ 신사이바시역",
+          "coords": { "lat": 34.6749, "lng": 135.5002 },
+          "description": "[미도스지선] 요도야바시역 ➔ 신사이바시역 이동",
+          "bullets": [
+            "지하철 2정거장 (약 10분)"
+          ],
+          "links": [],
+          "cost": 190,
+          "costNote": "지하철 190엔"
+        },
+        {
+          "id": "d1-8",
+          "time": "13:40",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "파르코 신사이바시",
+          "category": "shopping",
+          "location": "신사이바시 PARCO",
+          "coords": { "lat": 34.6738, "lng": 135.5008 },
+          "description": "캐릭터 굿즈 쇼핑 및 카페",
+          "bullets": [
+            "6F: 치이카와랜드, 키디랜드, 팝마트",
+            "3F: 하브스(HARBS) 과일크레이프케이크",
+            "참고: 파르코는 백화점 5% 할인쿠폰 적용 불가"
+          ],
+          "links": [],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d1-9",
+          "time": "14:40",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "다이마루 백화점 신사이바시점",
+          "category": "shopping",
+          "location": "다이마루 백화점 신사이바시점",
+          "coords": { "lat": 34.6734, "lng": 135.5008 },
+          "description": "파르코 연결통로로 이동 가능한 백화점 쇼핑",
+          "bullets": [
+            "2-9F: 파르코 ↔ 다이마루 백화점 연결 통로",
+            "9F: 포켓몬센터, 점프샵",
+            "1F: 3,000엔 이상 구매 시 5% 할인쿠폰 발급"
+          ],
+          "links": [
+            { "label": "다이마루 5% 할인쿠폰 링크", "url": "https://dmdepart.jp/fl/coupon/k", "type": "coupon" }
+          ],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d1-10",
+          "time": "15:40",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "산리오 신사이바시점 & 드럭스토어",
+          "category": "shopping",
+          "location": "산리오 신사이바시점 / 코스모스",
+          "coords": { "lat": 34.6728, "lng": 135.5015 },
+          "description": "산리오 캐릭터 샵 및 가성비 드럭스토어",
+          "bullets": [
+            "산리오 굿즈 쇼핑",
+            "디스카운트 드럭스토어 코스모스 신사이바시점 (※ 면세 불가)"
+          ],
+          "links": [
+            { "label": "코스모스 드럭스토어 구글맵", "url": "https://maps.app.goo.gl/WLRs8x5MkvaCEcvG9", "type": "map" }
+          ],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d1-11",
+          "time": "16:30",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "도톤보리 구경",
+          "category": "sightseeing",
+          "location": "도톤보리 글리코상 앞",
+          "coords": { "lat": 34.6687, "lng": 135.5013 },
+          "description": "오사카의 상징 글리코상 포토존 및 활기찬 거리 산책",
+          "bullets": [
+            "글리코상 러너 포즈 인증샷",
+            "도톤보리강 산책 및 네온사인 구경"
+          ],
+          "links": [],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d1-12",
+          "time": "17:00~",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "저녁: 야키니쿠 덴세츠 바리바리 센니치마에",
+          "category": "food",
+          "location": "야키니쿠 덴세츠 바리바리 센니치마에점",
+          "coords": { "lat": 34.6670, "lng": 135.5034 },
+          "description": "17:00 오픈 / 고품질 야키니쿠 저녁 식사",
+          "bullets": [
+            "영업시간: 17:00 ~",
+            "구글맵 평점 확인 / 영화 시간 고려하여 사전 예약 권장"
+          ],
+          "links": [
+            { "label": "구글맵 바로가기", "url": "https://maps.app.goo.gl/UrKBpYJ8TFQXi9YL6", "type": "map" }
+          ],
+          "cost": 0,
+          "costNote": "식사비 별도"
+        },
+        {
+          "id": "d1-13",
+          "time": "저녁",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "영화 관람 (마마마 / 치이카와)",
+          "category": "activity",
+          "location": "TOHO 시네마스 난바 본관",
+          "coords": { "lat": 34.6659, "lng": 135.5019 },
+          "description": "토호시네마 난바본관에서 일본 현지 극장 애니메이션 관람",
+          "bullets": [
+            "토호시네마 난바본관 상영시간 사전 확인"
+          ],
+          "links": [],
+          "cost": 0,
+          "costNote": "티켓비 별도"
+        },
+        {
+          "id": "d1-14",
+          "time": "밤",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "숙소 체크인 및 휴식",
+          "category": "hotel",
+          "location": "호텔 케이한 요도야바시",
+          "coords": { "lat": 34.6896, "lng": 135.5057 },
+          "description": "[미도스지선] 난바역 ➔ 요도야바시역 이동 후 정식 체크인",
+          "bullets": [
+            "미도스지선 지하철 190엔",
+            "호텔 케이한 요도야바시 체크인 후 하루 마무리"
+          ],
+          "links": [],
+          "cost": 190,
+          "costNote": "지하철 190엔"
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "date": "8.30(일)",
+      "fullDate": "2026-08-30",
+      "title": "오사카성 & 우메다 총정리 투어",
+      "description": "오사카성 산책부터 우메다 백화점/쇼핑몰/디저트/야식 정복",
+      "themeColor": "#10b981",
+      "schedules": [
+        {
+          "id": "d2-1",
+          "time": "09:00",
+          "timePeriod": "오전",
+          "duration": "40분",
+          "title": "오사카성 이동",
+          "category": "transit",
+          "location": "기타하마 ➔ 오사카성",
+          "coords": { "lat": 34.6873, "lng": 135.5262 },
+          "description": "버스 또는 지하철로 오사카성 이동",
+          "bullets": [
+            "[추천 버스] 62번 버스: 기타하마니초메(09:16) ➔ 오사카성 정문 앞(09:27) (배차 약 30분)",
+            "[지하철] 게이한 본선 기타하마 ➔ 덴마바시 (지하철 이용 시 버스보다 10분 더 걸어야 함)"
+          ],
+          "links": [],
+          "cost": 210,
+          "costNote": "교통비 210엔"
+        },
+        {
+          "id": "d2-2",
+          "time": "09:40",
+          "timePeriod": "오전",
+          "duration": null,
+          "title": "오사카성 도착 및 관람",
+          "category": "sightseeing",
+          "location": "오사카성 천수각 / 공원",
+          "coords": { "lat": 34.6873, "lng": 135.5262 },
+          "description": "오사카의 대표 랜드마크 오사카성 천수각과 공원 산책",
+          "bullets": [
+            "성곽 및 천수각 주변 풍경 감상"
+          ],
+          "links": [],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d2-3",
+          "time": "10:00",
+          "timePeriod": "오전",
+          "duration": null,
+          "title": "명탐정 코난 동상 (요미우리TV)",
+          "category": "sightseeing",
+          "location": "요미우리TV 본사 앞 (YTV)",
+          "coords": { "lat": 34.6934, "lng": 135.5303 },
+          "description": "요미우리TV 앞 명탐정 코난 소년탐정단 동상",
+          "bullets": [
+            "체력이 되면 들르고, 힘들면 바로 오사카조코엔역으로 직행 권장"
+          ],
+          "links": [
+            { "label": "구글맵 바로가기", "url": "https://maps.app.goo.gl/nC9ongmj9Uf8jPTCA", "type": "map" }
+          ],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d2-4",
+          "time": "10:10",
+          "timePeriod": "오전",
+          "duration": "20분",
+          "title": "우메다 이동",
+          "category": "transit",
+          "location": "오사카조코엔역 ➔ 오사카역(우메다)",
+          "coords": { "lat": 34.7025, "lng": 135.4959 },
+          "description": "[JR 오사카 순환선] 오사카조코엔역 ➔ 오사카역 이동",
+          "bullets": [
+            "JR 오사카 순환선 약 20분 소요"
+          ],
+          "links": [],
+          "cost": 180,
+          "costNote": "JR 180엔"
+        },
+        {
+          "id": "d2-5",
+          "time": "10:30",
+          "timePeriod": "오전",
+          "duration": null,
+          "title": "스탠다드 프로덕트 우메다점",
+          "category": "shopping",
+          "location": "Standard Products 우메다",
+          "coords": { "lat": 34.7025, "lng": 135.4959 },
+          "description": "다이소 프리미엄 라이프스타일 샵 (10:00 오픈)",
+          "bullets": [
+            "심플하고 감성적인 인테리어 소품 쇼핑"
+          ],
+          "links": [
+            { "label": "구글맵 바로가기", "url": "https://maps.app.goo.gl/Mz93WosmwJdLUGu4q7", "type": "map" }
+          ],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d2-6",
+          "time": "11:00",
+          "timePeriod": "오전",
+          "duration": null,
+          "title": "점심: 규카츠 모토무라 루쿠아점",
+          "category": "food",
+          "location": "루쿠아 오사카 10F",
+          "coords": { "lat": 34.7025, "lng": 135.4959 },
+          "description": "11:00 오픈 / 입안에서 살살 녹는 정통 규카츠",
+          "bullets": [
+            "루쿠아 10층 다이닝",
+            "11:00 오픈 시간 맞춰 방문 추천"
+          ],
+          "links": [
+            { "label": "구글맵 바로가기", "url": "https://maps.app.goo.gl/SBFBMSFdBpQ5x5oE8", "type": "map" }
+          ],
+          "cost": 0,
+          "costNote": "식사비 별도"
+        },
+        {
+          "id": "d2-7",
+          "time": "12:00",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "루쿠아 (LUCUA) 쇼핑",
+          "category": "shopping",
+          "location": "루쿠아 오사카",
+          "coords": { "lat": 34.7025, "lng": 135.4959 },
+          "description": "러쉬 입욕제 및 칼디 커피 팜 쇼핑",
+          "bullets": [
+            "8F: 러쉬(LUSH) / 10:30~",
+            "2F: 칼디 커피 팜(KALDI) / 10:30~"
+          ],
+          "links": [],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d2-8",
+          "time": "13:00",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "킷테 오사카 (KITTE)",
+          "category": "shopping",
+          "location": "KITTE OSAKA",
+          "coords": { "lat": 34.7005, "lng": 135.4947 },
+          "description": "최신 핫플레이스 킷테 오사카 치이카와 명소",
+          "bullets": [
+            "1F: 치이카와 대형 조형물 포토존",
+            "3F: 치이카와 베이커리"
+          ],
+          "links": [],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d2-9",
+          "time": "13:20",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "헵파이브 (HEP FIVE)",
+          "category": "shopping",
+          "location": "HEP FIVE 쇼핑몰",
+          "coords": { "lat": 34.7035, "lng": 135.5005 },
+          "description": "우메다의 대표 빨간 관람차 쇼핑몰 & 서브컬처 천국",
+          "bullets": [
+            "8F-9F: 반다이 남코 Cross Store / 가챠샵",
+            "6F: 점프샵 (JUMP SHOP)",
+            "4F: 탐토이 / 산리오"
+          ],
+          "links": [],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d2-10",
+          "time": "15:00",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "우메다 구경 (세리아·가챠·애니메이트)",
+          "category": "shopping",
+          "location": "우메다 차야마치 일대",
+          "coords": { "lat": 34.7058, "lng": 135.4995 },
+          "description": "우메다 숨은 쇼핑 스팟 탐방",
+          "bullets": [
+            "세리아 우메다 첼시마켓점 (백엔샵, 완전 노다지)",
+            "가챠노모리 오사카 우메다 차야마치점 (가챠 전문)",
+            "애니메이트 우메다점"
+          ],
+          "links": [
+            { "label": "세리아 첼시마켓점 구글맵", "url": "https://maps.app.goo.gl/71dWG8c5bjfG2sMV8", "type": "map" },
+            { "label": "가챠노모리 차야마치점 구글맵", "url": "https://maps.app.goo.gl/hQzYwAdNngED5wZQ9", "type": "map" }
+          ],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d2-11",
+          "time": "16:00",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "간식: 타코야끼 타임",
+          "category": "food",
+          "location": "우메다 타코야끼",
+          "coords": { "lat": 34.7030, "lng": 135.4990 },
+          "description": "오사카 필수 간식 겉바속촉 타코야끼",
+          "bullets": [
+            "현지인 인기 타코야끼 맛보기"
+          ],
+          "links": [
+            { "label": "구글맵 바로가기", "url": "https://maps.app.goo.gl/UVjZJmzQwt2FU7ut8", "type": "map" }
+          ],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d2-12",
+          "time": "16:30",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "한큐 백화점 우메다 본점",
+          "category": "shopping",
+          "location": "한큐백화점 우메다 본점",
+          "coords": { "lat": 34.7022, "lng": 135.4983 },
+          "description": "식품관 디저트 포장 및 굿즈 쇼핑",
+          "bullets": [
+            "B1F: 잇신도 한큐 우메다점 (과일모찌)",
+            "치이카와랜드 / 키디랜드",
+            "하브스(HARBS) 케이크 포장",
+            "1,000엔 이상 구매 시 5% 할인쿠폰 제시"
+          ],
+          "links": [
+            { "label": "하브스 한큐 구글맵", "url": "https://maps.app.goo.gl/u3DdkEYLUXE5oKA68", "type": "map" },
+            { "label": "한큐 백화점 5% 할인쿠폰 링크", "url": "https://global.hankyu-hanshin-dept.co.jp/ko/store/hankyuhonten/service", "type": "coupon" }
+          ],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d2-13",
+          "time": "17:30",
+          "timePeriod": "오후",
+          "duration": "15분",
+          "title": "숙소 이동 및 짐 보관",
+          "category": "hotel",
+          "location": "호텔 케이한 요도야바시",
+          "coords": { "lat": 34.6896, "lng": 135.5057 },
+          "description": "[미도스지선] 우메다역 ➔ 요도야바시역 이동 후 쇼핑 짐 두고 나오기",
+          "bullets": [
+            "지하철 1정거장 (190엔)"
+          ],
+          "links": [],
+          "cost": 190,
+          "costNote": "지하철 190엔"
+        },
+        {
+          "id": "d2-14",
+          "time": "18:00",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "디저트: 후르츠카페 히카리",
+          "category": "cafe",
+          "location": "후르츠카페 히카리 (Fruits Cafe Hikari)",
+          "coords": { "lat": 34.6915, "lng": 135.5090 },
+          "description": "숙소 도보 10분 / 비주얼 폭발 대형 과일 파르페",
+          "bullets": [
+            "숙소 도보 10분 거리",
+            "대형 생과일 파르페로 유명한 카페"
+          ],
+          "links": [
+            { "label": "구글맵 바로가기", "url": "https://maps.app.goo.gl/dK7e2pakvfsVErP79", "type": "map" }
+          ],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d2-15",
+          "time": "19:00",
+          "timePeriod": "오후",
+          "duration": "20분",
+          "title": "도보 이동 (난바 방면)",
+          "category": "transit",
+          "location": "요도야바시 ➔ 난바 도보",
+          "coords": { "lat": 34.6780, "lng": 135.5030 },
+          "description": "오사카 시내 밤거리를 걸으며 난바 방면으로 이동",
+          "bullets": [
+            "도보 약 20분 소요"
+          ],
+          "links": [],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d2-16",
+          "time": "19:20",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "간식: 오니기리 고리짱 난바점",
+          "category": "food",
+          "location": "오니기리 고리짱 난바점",
+          "coords": { "lat": 34.6672, "lng": 135.5015 },
+          "description": "줄 서서 먹는 속 꽉 찬 수제 주먹밥 맛집",
+          "bullets": [
+            "영업시간: ~ 21:00",
+            "★ 카드 결제 불가 (현금 필수)"
+          ],
+          "links": [
+            { "label": "구글맵 바로가기", "url": "https://maps.app.goo.gl/nb1V5oQk3PK9pUBD6", "type": "map" }
+          ],
+          "cost": 0,
+          "costNote": "현금 결제"
+        },
+        {
+          "id": "d2-17",
+          "time": "19:50",
+          "timePeriod": "오후",
+          "duration": "10분",
+          "title": "도보 이동",
+          "category": "transit",
+          "location": "식당으로 도보 이동",
+          "coords": { "lat": 34.6700, "lng": 135.4990 },
+          "description": "저녁 식당으로 이동",
+          "bullets": [
+            "도보 약 10분"
+          ],
+          "links": [],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d2-18",
+          "time": "20:00",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "저녁: 스파게티의 판초 오사카요츠바시점",
+          "category": "food",
+          "location": "스파게티의 판초 오사카요츠바시점 (또는 난바점)",
+          "coords": { "lat": 34.6730, "lng": 135.4970 },
+          "description": "일본 정통 나폴리탄 스파게티 전문점",
+          "bullets": [
+            "인기 만점 나폴리탄 / 미트소스 스파게티",
+            "라스트 오더: 21:30",
+            "덴덴타운 동선 시 스파게티노판쵸 난바점 대체 가능"
+          ],
+          "links": [
+            { "label": "구글맵 바로가기", "url": "https://maps.app.goo.gl/G1Ccw3zcywPY48TY7", "type": "map" }
+          ],
+          "cost": 0,
+          "costNote": "식사비 별도"
+        },
+        {
+          "id": "d2-19",
+          "time": "21:30",
+          "timePeriod": "오후",
+          "duration": "120분",
+          "title": "돈키호테 도톤보리미도스지점",
+          "category": "shopping",
+          "location": "돈키호테 도톤보리미도스지점",
+          "coords": { "lat": 34.6690, "lng": 135.5005 },
+          "description": "심야 돈키호테 쇼핑 (120분)",
+          "bullets": [
+            "일본 과자, 화장품, 기념품 쇼핑",
+            "5,000엔 이상 구매 시 면세 혜택 (여권 지참 필수)"
+          ],
+          "links": [],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d2-20",
+          "time": "23:40",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "숙소 귀가",
+          "category": "hotel",
+          "location": "호텔 케이한 요도야바시",
+          "coords": { "lat": 34.6896, "lng": 135.5057 },
+          "description": "[미도스지선] 난바역 ➔ 요도야바시역 이동 (막차 00:10)",
+          "bullets": [
+            "미도스지선 지하철 190엔",
+            "★ 난바역 출발 막차 시간 00:10 주의"
+          ],
+          "links": [],
+          "cost": 190,
+          "costNote": "지하철 190엔"
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "date": "8.31(월)",
+      "fullDate": "2026-08-31",
+      "title": "난바 파크스/시티 쇼핑 & 공항 출국",
+      "description": "마지막 날 난바 복합몰 쇼핑과 점심 후 간사이공항 출국",
+      "themeColor": "#f59e0b",
+      "schedules": [
+        {
+          "id": "d3-1",
+          "time": "11:00",
+          "timePeriod": "오전",
+          "duration": null,
+          "title": "숙소 체크아웃 및 난바 이동",
+          "category": "transit",
+          "location": "요도야바시역 ➔ 난바역",
+          "coords": { "lat": 34.6629, "lng": 135.5023 },
+          "description": "[미도스지선] 숙소 체크아웃 후 난바역으로 이동",
+          "bullets": [
+            "지하철 190엔",
+            "난바역 코인락커 또는 난바 복합몰 짐 보관"
+          ],
+          "links": [],
+          "cost": 190,
+          "costNote": "지하철 190엔"
+        },
+        {
+          "id": "d3-2",
+          "time": "11:30",
+          "timePeriod": "오전",
+          "duration": null,
+          "title": "점심: 시로키츠네 or 우동마에 하루토",
+          "category": "food",
+          "location": "난바시티 1F / 난바파크스 6F",
+          "coords": { "lat": 34.6635, "lng": 135.5020 },
+          "description": "난바의 정갈한 텐동 또는 프리미엄 우동",
+          "bullets": [
+            "[옵션 1] 시로키츠네 난바시티점 1F: 텐동+우동 세트 / QR 한글메뉴판",
+            "[옵션 2] 우동마에 하루토 난바파크스 6F: 쫄깃한 자가제면 우동 맛집"
+          ],
+          "links": [
+            { "label": "시로키츠네 구글맵", "url": "https://maps.app.goo.gl/93NrYC1eU4XrUnPp8", "type": "map" },
+            { "label": "우동마에 하루토 구글맵", "url": "https://maps.app.goo.gl/W8HK8VkZM9gh5SzR6", "type": "map" }
+          ],
+          "cost": 0,
+          "costNote": "식사비 별도"
+        },
+        {
+          "id": "d3-3",
+          "time": "12:30",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "난바 시티 (NAMBA CITY)",
+          "category": "shopping",
+          "location": "난바 시티",
+          "coords": { "lat": 34.6635, "lng": 135.5020 },
+          "description": "칼디 쇼핑 및 면세 혜택",
+          "bullets": [
+            "1F: 칼디 커피 팜 (영업 ~21:00)",
+            "5,500엔 이상 구매 시 B2F 면세 카운터에서 면세 환급 가능"
+          ],
+          "links": [],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d3-4",
+          "time": "13:30",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "난바 파크스 (NAMBA PARKS)",
+          "category": "shopping",
+          "location": "난바 파크스",
+          "coords": { "lat": 34.6617, "lng": 135.5019 },
+          "description": "도심 속 정원 쇼핑몰 & 캐릭터 잡화점",
+          "bullets": [
+            "5F: 빌리지 뱅가드 (Village Vanguard / 서적·잡화 ~21:00)",
+            "1F: 스탠다드 프로덕트 난바파크스점"
+          ],
+          "links": [],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d3-5",
+          "time": "14:30",
+          "timePeriod": "오후",
+          "duration": "45분",
+          "title": "간사이공항 이동 (난카이 공항급행)",
+          "category": "transit",
+          "location": "난바역 ➔ 간사이공항역",
+          "coords": { "lat": 34.4347, "lng": 135.2441 },
+          "description": "난카이 난바역에서 간사이공항행 공항급행 탑승",
+          "bullets": [
+            "추천 급행 열차 시간표: 14:38, 14:53, 15:08",
+            "소요시간: 약 45분"
+          ],
+          "links": [],
+          "cost": 970,
+          "costNote": "1인 970엔"
+        },
+        {
+          "id": "d3-6",
+          "time": "16:00",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "간사이공항 도착 및 수속",
+          "category": "flight",
+          "location": "간사이국제공항 제1터미널",
+          "coords": { "lat": 34.4347, "lng": 135.2441 },
+          "description": "탑승 2시간 전 도착 / 위탁수하물 및 출국 수속",
+          "bullets": [
+            "이스타항공 카운터 체크인",
+            "출국 심사 후 면세점 쇼핑 (도쿄바나나, 로이즈 초콜릿 등)"
+          ],
+          "links": [],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d3-7",
+          "time": "18:00",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "비행기 탑승 (간사이 ➔ 인천)",
+          "category": "flight",
+          "location": "간사이국제공항 탑승구",
+          "coords": { "lat": 34.4347, "lng": 135.2441 },
+          "description": "이스타항공 ZE614 항공편 탑승",
+          "bullets": [
+            "18:00 이륙"
+          ],
+          "links": [],
+          "cost": 0,
+          "costNote": ""
+        },
+        {
+          "id": "d3-8",
+          "time": "20:00",
+          "timePeriod": "오후",
+          "duration": null,
+          "title": "인천공항 제1터미널 도착",
+          "category": "flight",
+          "location": "인천국제공항 제1여객터미널",
+          "coords": { "lat": 37.4602, "lng": 126.4407 },
+          "description": "입국 심사, 수하물 수령 및 여행 마무리",
+          "bullets": [
+            "20:00 인천공항 도착",
+            "수하물 수령 및 귀가"
+          ],
+          "links": [],
+          "cost": 0,
+          "costNote": ""
+        }
+      ]
+    }
+  ],
+  "quickLinks": [
+    {
+      "category": "출입국",
+      "title": "비짓재팬 웹 (Visit Japan Web)",
+      "desc": "일본 입국 심사 및 세관 신고 사전 등록 QR 발급",
+      "url": "https://www.vjw.digital.go.jp/"
+    },
+    {
+      "category": "백화점 할인",
+      "title": "다이마루 백화점 5% 할인쿠폰",
+      "desc": "1F 인포메이션 / 3,000엔 이상 구매 시 5% 할인",
+      "url": "https://dmdepart.jp/fl/coupon/k"
+    },
+    {
+      "category": "백화점 할인",
+      "title": "한큐 백화점 5% 게스트 쿠폰",
+      "desc": "해외 여행객 전용 1,000엔 이상 구매 시 5% 할인",
+      "url": "https://global.hankyu-hanshin-dept.co.jp/ko/store/hankyuhonten/service"
+    }
+  ],
+  "checklist": [
+    { "id": "c1", "text": "여권 (유효기간 6개월 이상 확인)", "category": "필수" },
+    { "id": "c2", "text": "비짓재팬 웹 QR코드 캡처", "category": "필수" },
+    { "id": "c3", "text": "eSIM / 유심 / 포켓와이파이", "category": "통신" },
+    { "id": "c4", "text": "엔화 현금 (고리짱 오니기리 등 카드 불가 대비)", "category": "결제" },
+    { "id": "c5", "text": "트래블로그 / 트래블월렛 카드", "category": "결제" },
+    { "id": "c6", "text": "110V 돼지코 어댑터 & 보조배터리", "category": "전자기기" },
+    { "id": "c7", "text": "접이식 우산 & 편한 운동화", "category": "준비물" }
+  ]
+}
