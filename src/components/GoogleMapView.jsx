@@ -1,18 +1,10 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import {
-  Navigation,
-  Route,
-  Compass,
-  ChevronLeft,
-  ChevronRight,
-  Layers,
-  MapPin
-} from 'lucide-react'
+import { Compass, MapPin } from 'lucide-react'
 import { getCategoryInfo } from '../utils/helpers'
 
-export default function GoogleMapView({ days, activeDay, focusedItem }) {
+export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSpot }) {
   const mapContainerRef = useRef(null)
   const mapInstanceRef = useRef(null)
   const layerGroupRef = useRef(null)
@@ -60,11 +52,11 @@ export default function GoogleMapView({ days, activeDay, focusedItem }) {
     if (!mapContainerRef.current) return
     if (mapInstanceRef.current) return // Avoid re-initialization
 
-    // Default center Osaka
+    // Default center Osaka (Zoom level 15)
     const map = L.map(mapContainerRef.current, {
       zoomControl: false,
       attributionControl: false
-    }).setView([34.685, 135.505], 13)
+    }).setView([34.685, 135.505], 15)
 
     // Google Maps Tile Layer
     L.tileLayer('https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
@@ -72,8 +64,8 @@ export default function GoogleMapView({ days, activeDay, focusedItem }) {
       maxZoom: 19
     }).addTo(map)
 
-    // Add custom zoom control at top right
-    L.control.zoom({ position: 'topright' }).addTo(map)
+    // Add custom zoom control at bottom right
+    L.control.zoom({ position: 'bottomright' }).addTo(map)
 
     const layerGroup = L.layerGroup().addTo(map)
     layerGroupRef.current = layerGroup
@@ -168,6 +160,9 @@ export default function GoogleMapView({ days, activeDay, focusedItem }) {
 
       marker.on('click', () => {
         setSelectedSpot(spot)
+        if (onSelectSpot) {
+          onSelectSpot(spot)
+        }
       })
 
       marker.addTo(layerGroup)
@@ -201,32 +196,18 @@ export default function GoogleMapView({ days, activeDay, focusedItem }) {
     })
   }, [selectedSpot, osakaSpots])
 
-  const handleNextSpot = () => {
-    if (!selectedSpot || osakaSpots.length <= 1) return
-    const currentIndex = osakaSpots.findIndex((s) => s.id === selectedSpot.id)
-    const nextIndex = (currentIndex + 1) % osakaSpots.length
-    setSelectedSpot(osakaSpots[nextIndex])
-  }
-
-  const handlePrevSpot = () => {
-    if (!selectedSpot || osakaSpots.length <= 1) return
-    const currentIndex = osakaSpots.findIndex((s) => s.id === selectedSpot.id)
-    const prevIndex = (currentIndex - 1 + osakaSpots.length) % osakaSpots.length
-    setSelectedSpot(osakaSpots[prevIndex])
-  }
-
   return (
-    <div className="relative w-full h-full min-h-[380px] bg-slate-900 rounded-3xl overflow-hidden border border-slate-800 shadow-xl flex flex-col">
-      {/* Top Header Bar */}
-      <div className="p-2.5 sm:p-3 bg-slate-900/95 border-b border-slate-800 backdrop-blur-md flex items-center justify-between gap-1.5 sm:gap-2 z-10 min-w-0">
+    <div className="relative w-full h-full min-h-[300px] bg-slate-900 rounded-3xl overflow-hidden border border-slate-800 shadow-xl">
+      {/* Top Header Bar (Floating overlay over map) */}
+      <div className="absolute top-3 left-3 right-3 z-20 p-2 sm:p-2.5 bg-slate-900/90 border border-slate-700/80 backdrop-blur-md rounded-2xl flex items-center justify-between gap-1.5 sm:gap-2 shadow-lg">
         <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
           <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center border border-rose-500/30 flex-shrink-0">
             <Compass className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-1 sm:gap-1.5">
-              <span className="text-xs font-bold text-white truncate">
-                {activeDay === 'all' ? '전체 동선' : `Day ${activeDay} 동선`}
+              <span className="text-xs sm:text-sm font-bold text-white truncate">
+                {activeDay === 'all' ? '전체 동선' : `Day ${activeDay}`}
               </span>
               <span className="text-[10px] bg-rose-500 text-white font-bold px-1.5 py-0.2 rounded-full whitespace-nowrap flex-shrink-0">
                 {osakaSpots.length}곳
@@ -239,7 +220,7 @@ export default function GoogleMapView({ days, activeDay, focusedItem }) {
           {/* Fit Bounds Button */}
           <button
             onClick={handleFitBounds}
-            className="flex items-center gap-1 text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-2.5 py-1 rounded-lg sm:rounded-xl border border-slate-700 transition active:scale-95 whitespace-nowrap shadow-sm"
+            className="flex items-center gap-1 text-[11px] bg-slate-800/90 hover:bg-slate-700 text-slate-200 font-semibold px-2 py-1 rounded-lg sm:rounded-xl border border-slate-700 transition active:scale-95 whitespace-nowrap shadow-sm"
             title="현재 날짜 동선 전체 한눈에 보기"
           >
             <Compass className="w-3.5 h-3.5 text-rose-400 flex-shrink-0" />
@@ -249,66 +230,8 @@ export default function GoogleMapView({ days, activeDay, focusedItem }) {
       </div>
 
       {/* Interactive Map View */}
-      <div className="relative flex-1 w-full h-full bg-slate-950">
+      <div className="w-full h-full bg-slate-950">
         <div ref={mapContainerRef} className="w-full h-full min-h-[300px] z-0" />
-
-        {/* Selected Spot Bottom Floating Card */}
-        {selectedSpot && (
-          <div className="absolute bottom-3 left-3 right-3 z-10 bg-slate-900/90 text-white backdrop-blur-md p-3 rounded-2xl border border-slate-700/80 shadow-2xl animate-fade-in flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2.5 overflow-hidden flex-1">
-              <div className="w-8 h-8 rounded-xl bg-rose-500 text-white font-black text-xs flex items-center justify-center flex-shrink-0 shadow-md">
-                {selectedSpot.seqNumber}
-              </div>
-              <div className="overflow-hidden">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[11px] font-bold text-rose-300 bg-rose-500/20 px-1.5 py-0.2 rounded">
-                    {selectedSpot.time}
-                  </span>
-                  <h4 className="text-xs sm:text-sm font-bold text-white truncate">
-                    {selectedSpot.title}
-                  </h4>
-                </div>
-                <p className="text-[11px] text-slate-400 truncate mt-0.5">
-                  {selectedSpot.location || selectedSpot.description}
-                </p>
-              </div>
-            </div>
-
-            {/* Actions: Prev, Next & Open in Google Maps */}
-            <div className="flex items-center gap-1 flex-shrink-0">
-              <button
-                onClick={handlePrevSpot}
-                className="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition active:scale-95"
-                title="이전 장소"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <button
-                onClick={handleNextSpot}
-                className="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition active:scale-95"
-                title="다음 장소"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-              <a
-                href={
-                  selectedSpot.links && selectedSpot.links[0]
-                    ? selectedSpot.links[0].url
-                    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                        selectedSpot.title + ' 오사카'
-                      )}`
-                }
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition active:scale-95 shadow-md shadow-rose-500/20"
-                title="구글맵 앱에서 열기"
-              >
-                <Navigation className="w-3 h-3" />
-                <span className="hidden sm:inline">길찾기</span>
-              </a>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   )

@@ -63,15 +63,32 @@ export default function App() {
     )
   }
 
-  const handleFocusOnMap = (item) => {
+  const handleFocusOnMap = (item, isUserClick = true) => {
     setFocusedItem(item)
     setSelectedItemId(item.id)
-    // Scroll map container into view if on mobile
-    if (window.innerWidth < 768) {
-      const mapElem = document.getElementById('map-section')
-      if (mapElem) {
-        mapElem.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      }
+
+    if (isUserClick && item) {
+      setTimeout(() => {
+        const cardElem = document.getElementById(`timeline-card-${item.id}`)
+        const container = document.getElementById('timeline-scroll-container')
+        if (!cardElem) return
+
+        if (container && window.innerWidth < 768) {
+          const containerRect = container.getBoundingClientRect()
+          const cardRect = cardElem.getBoundingClientRect()
+          
+          // Compute exact relative offset inside container with clean margin
+          const offsetDiff = cardRect.top - containerRect.top
+          const targetScroll = container.scrollTop + offsetDiff - 8
+
+          container.scrollTo({
+            top: Math.max(0, targetScroll),
+            behavior: 'smooth'
+          })
+        } else {
+          cardElem.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+        }
+      }, 20)
     }
   }
 
@@ -96,21 +113,25 @@ export default function App() {
         {/* <ExpenseSummary days={travelData.days} activeDay={activeDay} /> */}
 
         {/* Content Layout (Split View) */}
-        <div className="grid gap-6 grid-cols-1 md:grid-cols-12">
-          {/* Map Column */}
+        <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-12 items-start">
+          {/* Map Column (Expanded View Height) */}
           <div
             id="map-section"
-            className="md:col-span-6 lg:col-span-5 md:sticky md:top-[124px] h-[380px] md:h-[calc(100vh-150px)] transition-all duration-300"
+            className="col-span-1 md:col-span-6 lg:col-span-5 md:sticky md:top-[124px] z-10 h-[300px] sm:h-[360px] md:h-[calc(100vh-150px)] transition-all duration-300 rounded-3xl overflow-hidden shadow-md"
           >
             <GoogleMapView
               days={travelData.days}
               activeDay={activeDay}
               focusedItem={focusedItem}
+              onSelectSpot={(item) => handleFocusOnMap(item, true)}
             />
           </div>
 
-          {/* Timeline Column */}
-          <div className="md:col-span-6 lg:col-span-7">
+          {/* Timeline Column (Independent Scroll Container on mobile/tablet) */}
+          <div
+            id="timeline-scroll-container"
+            className="col-span-1 md:col-span-6 lg:col-span-7 h-[calc(100vh-420px)] md:h-auto overflow-y-auto md:overflow-visible p-2 sm:p-3 rounded-2xl no-scrollbar"
+          >
             <TimelineList
               days={travelData.days}
               activeDay={activeDay}
