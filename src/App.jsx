@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { ChevronUp } from 'lucide-react'
 import travelData from './data/travelPlan.json'
 import Header from './components/Header'
 import DayTabs from './components/DayTabs'
@@ -13,6 +14,27 @@ export default function App() {
   const [viewMode, setViewMode] = useState('split') // 'split' | 'list' | 'map'
   const [focusedItem, setFocusedItem] = useState(null)
   const [selectedItemId, setSelectedItemId] = useState(null)
+  const [showTopBtn, setShowTopBtn] = useState(false)
+
+  // Scroll event listener for top button
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 250) {
+        setShowTopBtn(true)
+      } else {
+        setShowTopBtn(false)
+      }
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
 
   // Visited state stored in localStorage
   const [visitedItems, setVisitedItems] = useState(() => {
@@ -78,7 +100,7 @@ export default function App() {
       {/* Main Container */}
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-4 sm:py-6">
         {/* Cost Summary Widget */}
-        <ExpenseSummary days={travelData.days} activeDay={activeDay} />
+        {/* <ExpenseSummary days={travelData.days} activeDay={activeDay} /> */}
 
         {/* Content Layout based on viewMode */}
         <div
@@ -129,6 +151,18 @@ export default function App() {
           )}
         </div>
       </main>
+
+      {/* Floating Scroll To Top Button */}
+      {showTopBtn && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-5 right-5 z-40 w-11 h-11 rounded-2xl bg-slate-900/90 text-white border border-slate-700/80 shadow-2xl backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:bg-rose-600 hover:scale-110 active:scale-95 animate-fade-in group"
+          aria-label="맨 위로 이동"
+          title="맨 위로 이동"
+        >
+          <ChevronUp className="w-5 h-5 text-rose-400 group-hover:text-white transition-colors" />
+        </button>
+      )}
 
       {/* Modals */}
       <TravelTipsModal
