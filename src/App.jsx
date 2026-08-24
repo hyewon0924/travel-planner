@@ -11,7 +11,6 @@ import ChecklistModal from './components/ChecklistModal'
 
 export default function App() {
   const [activeDay, setActiveDay] = useState(1) // Default to Day 1
-  const [viewMode, setViewMode] = useState('split') // 'split' | 'list' | 'map'
   const [focusedItem, setFocusedItem] = useState(null)
   const [selectedItemId, setSelectedItemId] = useState(null)
   const [showTopBtn, setShowTopBtn] = useState(false)
@@ -67,10 +66,6 @@ export default function App() {
   const handleFocusOnMap = (item) => {
     setFocusedItem(item)
     setSelectedItemId(item.id)
-    // If on mobile and in 'list' view, automatically switch to 'split'
-    if (viewMode === 'list') {
-      setViewMode('split')
-    }
     // Scroll map container into view if on mobile
     if (window.innerWidth < 768) {
       const mapElem = document.getElementById('map-section')
@@ -88,13 +83,11 @@ export default function App() {
         onOpenChecklist={() => setIsChecklistOpen(true)}
       />
 
-      {/* Day Selector & View Mode Switcher */}
+      {/* Day Selector */}
       <DayTabs
         days={travelData.days}
         activeDay={activeDay}
         onSelectDay={setActiveDay}
-        viewMode={viewMode}
-        onChangeViewMode={setViewMode}
       />
 
       {/* Main Container */}
@@ -102,53 +95,31 @@ export default function App() {
         {/* Cost Summary Widget */}
         {/* <ExpenseSummary days={travelData.days} activeDay={activeDay} /> */}
 
-        {/* Content Layout based on viewMode */}
-        <div
-          className={`grid gap-6 ${
-            viewMode === 'split'
-              ? 'grid-cols-1 md:grid-cols-12'
-              : viewMode === 'list'
-              ? 'grid-cols-1'
-              : 'grid-cols-1'
-          }`}
-        >
-          {/* Map Column (shown in 'split' or 'map' mode) */}
-          {(viewMode === 'split' || viewMode === 'map') && (
-            <div
-              id="map-section"
-              className={`${
-                viewMode === 'split'
-                  ? 'md:col-span-6 lg:col-span-5 md:sticky md:top-[124px] h-[380px] md:h-[calc(100vh-150px)]'
-                  : 'h-[78vh]'
-              } transition-all duration-300`}
-            >
-              <GoogleMapView
-                days={travelData.days}
-                activeDay={activeDay}
-                focusedItem={focusedItem}
-              />
-            </div>
-          )}
+        {/* Content Layout (Split View) */}
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-12">
+          {/* Map Column */}
+          <div
+            id="map-section"
+            className="md:col-span-6 lg:col-span-5 md:sticky md:top-[124px] h-[380px] md:h-[calc(100vh-150px)] transition-all duration-300"
+          >
+            <GoogleMapView
+              days={travelData.days}
+              activeDay={activeDay}
+              focusedItem={focusedItem}
+            />
+          </div>
 
-          {/* Timeline Column (shown in 'split' or 'list' mode) */}
-          {(viewMode === 'split' || viewMode === 'list') && (
-            <div
-              className={`${
-                viewMode === 'split'
-                  ? 'md:col-span-6 lg:col-span-7'
-                  : 'max-w-2xl mx-auto w-full'
-              }`}
-            >
-              <TimelineList
-                days={travelData.days}
-                activeDay={activeDay}
-                visitedItems={visitedItems}
-                onToggleVisited={toggleVisited}
-                onFocusOnMap={handleFocusOnMap}
-                selectedItemId={selectedItemId}
-              />
-            </div>
-          )}
+          {/* Timeline Column */}
+          <div className="md:col-span-6 lg:col-span-7">
+            <TimelineList
+              days={travelData.days}
+              activeDay={activeDay}
+              visitedItems={visitedItems}
+              onToggleVisited={toggleVisited}
+              onFocusOnMap={handleFocusOnMap}
+              selectedItemId={selectedItemId}
+            />
+          </div>
         </div>
       </main>
 

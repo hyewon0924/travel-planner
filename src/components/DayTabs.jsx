@@ -1,13 +1,13 @@
 import React from 'react'
-import { CalendarDays, Map, List, LayoutGrid } from 'lucide-react'
+import { CalendarDays } from 'lucide-react'
 
-export default function DayTabs({ days, activeDay, onSelectDay, viewMode, onChangeViewMode }) {
+export default function DayTabs({ days, activeDay, onSelectDay }) {
   return (
     <div className="bg-white border-b border-slate-200 sticky top-[52px] sm:top-[57px] z-20 shadow-sm">
       <div className="max-w-5xl mx-auto px-3 sm:px-4 py-2 sm:py-2.5">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div className="flex items-center justify-between gap-2">
           {/* Day selection tabs */}
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 min-w-0">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 min-w-0 w-full">
             <button
               onClick={() => onSelectDay('all')}
               className={`px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all flex items-center gap-1 flex-shrink-0 ${
@@ -39,48 +39,6 @@ export default function DayTabs({ days, activeDay, onSelectDay, viewMode, onChan
                 </button>
               )
             })}
-          </div>
-
-          {/* View mode toggle (Split / List / Map) */}
-          <div className="flex items-center justify-end flex-shrink-0">
-            <div className="inline-flex bg-slate-100 p-0.5 sm:p-1 rounded-xl border border-slate-200 text-xs">
-              <button
-                onClick={() => onChangeViewMode('split')}
-                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg font-medium transition ${
-                  viewMode === 'split'
-                    ? 'bg-white text-slate-900 shadow-sm font-semibold'
-                    : 'text-slate-500 hover:text-slate-800'
-                }`}
-                title="분할 뷰"
-              >
-                <LayoutGrid className="w-3.5 h-3.5" />
-                <span className="inline">분할</span>
-              </button>
-              <button
-                onClick={() => onChangeViewMode('list')}
-                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg font-medium transition ${
-                  viewMode === 'list'
-                    ? 'bg-white text-slate-900 shadow-sm font-semibold'
-                    : 'text-slate-500 hover:text-slate-800'
-                }`}
-                title="일정 리스트만"
-              >
-                <List className="w-3.5 h-3.5" />
-                <span>일정</span>
-              </button>
-              <button
-                onClick={() => onChangeViewMode('map')}
-                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg font-medium transition ${
-                  viewMode === 'map'
-                    ? 'bg-white text-slate-900 shadow-sm font-semibold'
-                    : 'text-slate-500 hover:text-slate-800'
-                }`}
-                title="지도만"
-              >
-                <Map className="w-3.5 h-3.5" />
-                <span>지도</span>
-              </button>
-            </div>
           </div>
         </div>
       </div>
