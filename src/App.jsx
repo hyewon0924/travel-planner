@@ -128,11 +128,11 @@ export default function App() {
         onSelectTab={setActiveTab}
       />
 
-      {/* 맨 위로 스크롤 버튼 */}
+      {/* 맨 위로 스크롤 버튼 (하단 네비 바 위에 완전히 노출되도록 bottom-20 z-50 지정) */}
       {showTopBtn && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-16 right-4 z-30 w-10 h-10 rounded-full bg-slate-900 text-white shadow-xl flex items-center justify-center transition-all hover:bg-slate-800 active:scale-95"
+          className="fixed bottom-20 right-4 z-50 w-10 h-10 rounded-full bg-slate-900 text-white shadow-xl flex items-center justify-center transition-all hover:bg-slate-800 active:scale-95 border border-slate-700"
           aria-label="맨 위로 이동"
           title="맨 위로 이동"
         >
