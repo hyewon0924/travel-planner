@@ -82,7 +82,7 @@ export default function TimelineCard({
     (item.extraLinks && item.extraLinks.length > 0) ||
     Boolean(item.mapUrl)
 
-  const isHighlighted = isSelected || isCurrentActive
+  const isHighlighted = isCurrentActive
 
   return (
     <div className="flex items-start gap-2.5 relative pb-5 group">
