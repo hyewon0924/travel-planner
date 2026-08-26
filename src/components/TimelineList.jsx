@@ -23,7 +23,8 @@ export default function TimelineList({
   visitedItems,
   onToggleVisited,
   onFocusOnMap,
-  selectedItemId
+  selectedItemId,
+  onShowToast
 }) {
   const displayedDays = activeDay === 'all' ? days : days.filter((d) => d.day === activeDay)
 
@@ -109,6 +110,7 @@ export default function TimelineList({
                       isSelected={selectedItemId === schedule.id}
                       isCurrentActive={isCurrentActive}
                       isLast={idx === dayData.schedules.length - 1}
+                      onShowToast={onShowToast}
                     />
                   )
                 })}

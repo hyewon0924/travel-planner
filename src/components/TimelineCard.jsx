@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { createPortal } from 'react-dom'
 import {
   Compass,
   Navigation,
   Map,
+  MapPin,
   Building2,
   Clock,
   FileText,
-  Link2
+  Link2,
+  Copy,
+  Check
 } from 'lucide-react'
 
 // <br> 태그 및 \n 개행 처리 헬퍼
@@ -63,7 +67,8 @@ export default function TimelineCard({
   onFocusOnMap,
   isSelected,
   isCurrentActive,
-  isLast
+  isLast,
+  onShowToast
 }) {
   const badgeInfo = getCategoryBadge(item.category, item.categoryLabel)
 
@@ -73,6 +78,8 @@ export default function TimelineCard({
     : typeof item.floorInfo === 'string'
     ? item.floorInfo.split('/').map((s) => s.trim()).filter(Boolean)
     : []
+
+  const showLoc = Boolean(item.location)
 
   const hasSubContent =
     Boolean(item.transitInfo) ||
@@ -84,8 +91,34 @@ export default function TimelineCard({
 
   const isHighlighted = isCurrentActive
 
+  // 장소명 클립보드 복사 처리
+  const handleCopyLocation = (e) => {
+    e.stopPropagation()
+    const textToCopy = item.location || item.title
+    if (!textToCopy) return
+
+    const onSuccess = () => {
+      if (onShowToast) {
+        onShowToast(`'${textToCopy}' 장소명이 복사되었습니다.`)
+      }
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(textToCopy).then(onSuccess)
+    } else {
+      const textArea = document.createElement('textarea')
+      textArea.value = textToCopy
+      document.body.appendChild(textArea)
+      textArea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
+      onSuccess()
+    }
+  }
+
   return (
     <div className="flex items-start gap-2.5 relative pb-5 group">
+
       {/* 타임라인 연결 수직선 (원형 아이콘 뒤쪽부터 아래 카드까지 쭉 연결) */}
       {!isLast && (
         <div className="w-[2px] bg-slate-800 absolute top-3 -bottom-5 left-[23px] z-0" />
@@ -125,30 +158,61 @@ export default function TimelineCard({
             onFocusOnMap(item, true)
           }
         }}
-        className={`flex-1 rounded-2xl border-2 px-3 py-2.5 transition-all duration-200 cursor-pointer shadow-sm relative z-10 ${
+        className={`flex-1 rounded-2xl border-2 px-3 py-2.5 transition-all duration-200 cursor-pointer shadow-sm relative z-10 border-slate-800 hover:border-secondary-500 hover:shadow-md ${
           isHighlighted
-            ? 'border-secondary-500 shadow-md ring-2 ring-secondary-950/30 bg-secondary-950/40'
-            : 'border-slate-800 hover:border-secondary-500 hover:shadow-md bg-slate-50/85'
+            ? 'ring-2 ring-secondary-950/30 bg-secondary-950/40'
+            : 'bg-slate-50/85'
         }`}
       >
-        {/* 헤더: 장소명 (주요일정) & 아래 구분 뱃지 (폰트 크기 9px) */}
+        {/* 헤더: 장소명 (주요일정) & 아래 구분 뱃지 + location 뱃지 */}
         <div className={`space-y-0.5 ${hasSubContent ? 'mb-2' : ''}`}>
-          {/* 장소명 (폰트 크기 14px) */}
-          <h3 className="text-[14px] font-extrabold tracking-tight leading-tight text-slate-900">
-            {renderTextWithBreaks(item.title)}
-          </h3>
+          {/* 장소명 (폰트 크기 14px) & 동선에 표시되는 장소만 우측 끝에 지도 아이콘 표시 (justify-between) */}
+          <div className="flex items-center justify-between gap-1.5 flex-wrap">
+            <h3 className="text-[14px] font-extrabold tracking-tight leading-tight text-slate-900">
+              {renderTextWithBreaks(item.title)}
+            </h3>
 
-          {/* 장소명 밑 구분 표시 뱃지 (폰트 크기 9px) */}
-          <div>
+            {/* 🗺️ 동선에 표기되는 장소(!item.hideOnMap && item.coords)만 title 오른쪽에 배경색 없는 헤더 지도 아이콘 노출 */}
+            {!item.hideOnMap && item.coords && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onFocusOnMap(item, true)
+                }}
+                title="지도 동선에서 위치 보기"
+                className="inline-flex items-center text-slate-500 hover:text-primary-600 transition-colors cursor-pointer p-0.5 ml-0.5 active:scale-90"
+              >
+                <Map className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
+          {/* 장소명 밑 구분 표시 뱃지 & location 뱃지 (하늘색 틴트 + 클릭 시 복사) */}
+          <div className="flex items-center gap-1.5 flex-wrap pt-0.5">
             <span
               className={`inline-block text-[9px] font-extrabold px-1.5 py-0.2 rounded-full border ${badgeInfo.bg}`}
             >
               {badgeInfo.label}
             </span>
+
+            {/* 📍 구분 뱃지 옆 location 장소명 (시원한 하늘색 틴트 톤 + 클릭 시 복사) */}
+            {showLoc && (
+              <button
+                type="button"
+                onClick={handleCopyLocation}
+                title="클릭하여 장소명 복사"
+                className="inline-flex items-center gap-1 text-[9px] font-bold text-sky-950 bg-sky-50 border border-sky-200 hover:bg-sky-100 px-1.5 py-0.2 rounded-full transition-all active:scale-95 cursor-pointer shadow-2xs"
+              >
+                <MapPin className="w-2.5 h-2.5 text-sky-600 flex-shrink-0" />
+                <span>{renderTextWithBreaks(item.location)}</span>
+                <Copy className="w-2.5 h-2.5 text-sky-500 opacity-75 ml-0.5" />
+              </button>
+            )}
           </div>
         </div>
 
-        {/* 🧭 이동방법 (연한 초록색 톤) */}
+        {/* 🧭 이동방법 */}
         {item.transitInfo && (
           <div className="flex items-start gap-1.5 text-[11px] text-emerald-950 bg-emerald-50/90 border border-emerald-200 rounded-xl px-2.5 py-1.5 mb-1.5 font-medium">
             <Compass className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" />

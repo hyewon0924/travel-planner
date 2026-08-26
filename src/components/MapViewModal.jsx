@@ -6,7 +6,7 @@ export default function MapViewModal({ isOpen, onClose, days, activeDay, focused
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/80 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-slate-950/80 backdrop-blur-sm animate-fade-in">
       <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-4xl h-[85vh] flex flex-col shadow-2xl overflow-hidden relative">
         {/* Header Bar */}
         <div className="px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
@@ -15,7 +15,7 @@ export default function MapViewModal({ isOpen, onClose, days, activeDay, focused
               <MapPin className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-sm font-bold text-white">이동 동선지도 (동선 미표기 제외)</h2>
+              <h2 className="text-sm font-bold text-white">오버뷰 (동선 미표기 제외)</h2>
               <p className="text-[11px] text-slate-400">Day {activeDay} 이동 경로 및 장소</p>
             </div>
           </div>
