@@ -232,7 +232,7 @@
           "id": "d1-12",
           "time": "7:00",
           "timePeriod": "오후",
-          "duration": "9:30 종료",
+          "duration": null,
           "category": "etc",
           "categoryLabel": "기타",
           "title": "마마마 / 치이카와 영화 관람",

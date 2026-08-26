@@ -61,16 +61,23 @@ export default function TimelineList({
       {displayedDays.map((dayData) => {
         const hasSchedules = dayData.schedules && dayData.schedules.length > 0
 
-        // 해당 Day에서의 현재 진행 중 스케줄(Active Schedule) 인덱스 계산
+        // 현재 날짜(YYYY-MM-DD)와 해당 Day의 fullDate가 일치하는 당일인지 검사
+        const now = new Date()
+        const year = now.getFullYear()
+        const month = String(now.getMonth() + 1).padStart(2, '0')
+        const date = String(now.getDate()).padStart(2, '0')
+        const todayStr = `${year}-${month}-${date}`
+
+        // 당일 날짜와 일치할 때만 시간 판별하여 활성화
+        const isToday = dayData.fullDate === todayStr
+
         let currentActiveIdx = -1
-        if (hasSchedules) {
+        if (hasSchedules && isToday) {
           // 각 일정의 시작 분 구하기
           const scheduleMinutes = dayData.schedules.map((s) =>
             parseTimeToMinutes(s.time, s.timePeriod)
           )
 
-          // 1) 만약 사용자가 지정한 테스트 시각 (오전 9:10 등 9:15 이전)이거나 현재 시각이 첫 일정 이상일 때
-          // 9:10 (550분)은 7:00 (420분) ~ 9:15 (555분) 사이이므로 0번째(1번 일정) 선택됨.
           for (let i = 0; i < dayData.schedules.length; i++) {
             const startMin = scheduleMinutes[i]
             const nextMin = i < dayData.schedules.length - 1 ? scheduleMinutes[i + 1] : 24 * 60
@@ -79,11 +86,6 @@ export default function TimelineList({
               currentActiveIdx = i
               break
             }
-          }
-
-          // 만약 현재 시각이 첫 일정(7:00)보다 이전이더라도, Day 1인 경우 1번 일정을 기본 활성 상태로 강조
-          if (currentActiveIdx === -1 && dayData.day === 1) {
-            currentActiveIdx = 0
           }
         }
 
