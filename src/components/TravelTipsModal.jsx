@@ -1,5 +1,5 @@
 import React from 'react'
-import { X, Sparkles, ExternalLink, ShieldCheck, ShoppingBag, Gift } from 'lucide-react'
+import { X, Sparkles, ExternalLink, ShieldCheck, ShoppingBag, Gift, Ticket } from 'lucide-react'
 
 export default function TravelTipsModal({ isOpen, onClose, quickLinks }) {
   if (!isOpen) return null
@@ -25,8 +25,9 @@ export default function TravelTipsModal({ isOpen, onClose, quickLinks }) {
         <div className="p-5 overflow-y-auto space-y-4">
           {/* Quick links & Coupons */}
           <div className="space-y-3">
-            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-              🎟️ 모바일 전용 할인 쿠폰 & 입국 링크
+            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+              <Ticket className="w-4 h-4 text-amber-500" />
+              <span>모바일 전용 할인 쿠폰 & 입국 링크</span>
             </h3>
 
             {quickLinks.map((link, idx) => (

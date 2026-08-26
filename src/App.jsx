@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import { ChevronUp } from 'lucide-react'
+import { ChevronUp, Heart, Sparkles, AlertCircle } from 'lucide-react'
 import travelData from './data/travelPlan.json'
 import Header from './components/Header'
 import DayTabs from './components/DayTabs'
 import TimelineList from './components/TimelineList'
 import GoogleMapView from './components/GoogleMapView'
-import ExpenseSummary from './components/ExpenseSummary'
-import TravelTipsModal from './components/TravelTipsModal'
-import ChecklistModal from './components/ChecklistModal'
+import MapViewModal from './components/MapViewModal'
+import BottomNav from './components/BottomNav'
 
 export default function App() {
   const [activeDay, setActiveDay] = useState(1) // Default to Day 1
+  const [activeTab, setActiveTab] = useState('schedule') // 'schedule' | 'wishlist'
   const [focusedItem, setFocusedItem] = useState(null)
   const [selectedItemId, setSelectedItemId] = useState(null)
+  const [isMapModalOpen, setIsMapModalOpen] = useState(false)
   const [showTopBtn, setShowTopBtn] = useState(false)
 
   // Scroll event listener for top button
@@ -48,10 +49,6 @@ export default function App() {
     return []
   })
 
-  // Modals state
-  const [isTipsOpen, setIsTipsOpen] = useState(false)
-  const [isChecklistOpen, setIsChecklistOpen] = useState(false)
-
   // Save visited state to localStorage
   useEffect(() => {
     localStorage.setItem('osaka_visited_items', JSON.stringify(visitedItems))
@@ -67,107 +64,82 @@ export default function App() {
     setFocusedItem(item)
     setSelectedItemId(item.id)
 
-    if (isUserClick && item) {
-      setTimeout(() => {
-        const cardElem = document.getElementById(`timeline-card-${item.id}`)
-        const container = document.getElementById('timeline-scroll-container')
-        if (!cardElem) return
-
-        if (container && window.innerWidth < 768) {
-          const containerRect = container.getBoundingClientRect()
-          const cardRect = cardElem.getBoundingClientRect()
-          
-          // Compute exact relative offset inside container with clean margin
-          const offsetDiff = cardRect.top - containerRect.top
-          const targetScroll = container.scrollTop + offsetDiff - 8
-
-          container.scrollTo({
-            top: Math.max(0, targetScroll),
-            behavior: 'smooth'
-          })
-        } else {
-          cardElem.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-        }
-      }, 20)
+    if (isUserClick && item && !item.hideOnMap) {
+      setIsMapModalOpen(true)
     }
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col font-sans selection:bg-rose-500 selection:text-white">
-      {/* Top Header */}
+    <div className="min-h-screen bg-slate-100 flex flex-col font-sans selection:bg-rose-500 selection:text-white pb-16">
+      {/* 1. Header (여행제목, 여행기간, 🗺️ 동선보기 버튼) */}
       <Header
-        onOpenTips={() => setIsTipsOpen(true)}
-        onOpenChecklist={() => setIsChecklistOpen(true)}
+        title={travelData.tripInfo?.title || '260829 오사카여행'}
+        period={`${travelData.tripInfo?.startDate || '8.29'} ~ ${travelData.tripInfo?.endDate || '8.31'}`}
+        onOpenMapModal={() => setIsMapModalOpen(true)}
       />
 
-      {/* Day Selector */}
-      <DayTabs
-        days={travelData.days}
-        activeDay={activeDay}
-        onSelectDay={setActiveDay}
-      />
+      {/* 2. Day Tabs (Sticky Header) */}
+      {activeTab === 'schedule' && (
+        <DayTabs
+          days={travelData.days}
+          activeDay={activeDay}
+          onSelectDay={setActiveDay}
+        />
+      )}
 
-      {/* Main Container */}
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-4 sm:py-6">
-        {/* Cost Summary Widget */}
-        {/* <ExpenseSummary days={travelData.days} activeDay={activeDay} /> */}
-
-        {/* Content Layout (Split View) */}
-        <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-12 items-start">
-          {/* Map Column (Expanded View Height) */}
-          <div
-            id="map-section"
-            className="col-span-1 md:col-span-6 lg:col-span-5 md:sticky md:top-[124px] z-10 h-[300px] sm:h-[360px] md:h-[calc(100vh-150px)] transition-all duration-300 rounded-3xl overflow-hidden shadow-md"
-          >
-            <GoogleMapView
-              days={travelData.days}
-              activeDay={activeDay}
-              focusedItem={focusedItem}
-              onSelectSpot={(item) => handleFocusOnMap(item, true)}
-            />
+      {/* 3. Main Content Container */}
+      <main className="flex-1 max-w-md w-full mx-auto px-4 py-4">
+        {activeTab === 'schedule' ? (
+          /* 일정 탭: 스케치 형태의 타임라인 리스트 */
+          <TimelineList
+            days={travelData.days}
+            activeDay={activeDay}
+            visitedItems={visitedItems}
+            onToggleVisited={toggleVisited}
+            onFocusOnMap={handleFocusOnMap}
+            selectedItemId={selectedItemId}
+          />
+        ) : (
+          /* 위시리스트 탭: 사용자 피드백에 따라 임의 구현 없이 하단 탭 스케치 유지 */
+          <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-6 bg-white rounded-3xl border border-slate-200 shadow-sm space-y-3">
+            <div className="w-14 h-14 rounded-full bg-rose-50 flex items-center justify-center text-rose-500">
+              <Heart className="w-7 h-7 fill-rose-500" />
+            </div>
+            <h2 className="text-base font-extrabold text-slate-900">위시리스트</h2>
+            <p className="text-xs text-slate-500 max-w-xs leading-relaxed">
+              위시리스트 탭 영역입니다.
+            </p>
           </div>
-
-          {/* Timeline Column (Independent Scroll Container on mobile/tablet) */}
-          <div
-            id="timeline-scroll-container"
-            className="col-span-1 md:col-span-6 lg:col-span-7 h-[calc(100vh-420px)] md:h-auto overflow-y-auto md:overflow-visible p-2 sm:p-3 rounded-2xl no-scrollbar"
-          >
-            <TimelineList
-              days={travelData.days}
-              activeDay={activeDay}
-              visitedItems={visitedItems}
-              onToggleVisited={toggleVisited}
-              onFocusOnMap={handleFocusOnMap}
-              selectedItemId={selectedItemId}
-            />
-          </div>
-        </div>
+        )}
       </main>
 
-      {/* Floating Scroll To Top Button */}
+      {/* 4. [🗺️ 동선보기] 지도 모달 (지도 동선 미표기 제외 처리됨) */}
+      <MapViewModal
+        isOpen={isMapModalOpen}
+        onClose={() => setIsMapModalOpen(false)}
+        days={travelData.days}
+        activeDay={activeDay}
+        focusedItem={focusedItem}
+        onSelectSpot={(spot) => handleFocusOnMap(spot, false)}
+      />
+
+      {/* 5. 하단 네비게이션 바 ([31 일정] [🤍 위시리스트]) */}
+      <BottomNav
+        activeTab={activeTab}
+        onSelectTab={setActiveTab}
+      />
+
+      {/* 맨 위로 스크롤 버튼 */}
       {showTopBtn && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-5 right-5 z-40 w-11 h-11 rounded-2xl bg-slate-900/90 text-white border border-slate-700/80 shadow-2xl backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:bg-rose-600 hover:scale-110 active:scale-95 animate-fade-in group"
+          className="fixed bottom-16 right-4 z-30 w-10 h-10 rounded-full bg-slate-900 text-white shadow-xl flex items-center justify-center transition-all hover:bg-rose-600 active:scale-95"
           aria-label="맨 위로 이동"
           title="맨 위로 이동"
         >
-          <ChevronUp className="w-5 h-5 text-rose-400 group-hover:text-white transition-colors" />
+          <ChevronUp className="w-5 h-5 text-white" />
         </button>
       )}
-
-      {/* Modals */}
-      <TravelTipsModal
-        isOpen={isTipsOpen}
-        onClose={() => setIsTipsOpen(false)}
-        quickLinks={travelData.quickLinks}
-      />
-
-      <ChecklistModal
-        isOpen={isChecklistOpen}
-        onClose={() => setIsChecklistOpen(false)}
-        initialChecklist={travelData.checklist}
-      />
     </div>
   )
 }

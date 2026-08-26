@@ -9,14 +9,14 @@ export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSp
   const mapInstanceRef = useRef(null)
   const layerGroupRef = useRef(null)
 
-  // Filter spots to display based on activeDay
+  // Filter spots to display based on activeDay (excluding hideOnMap spots)
   const displayedSpots = useMemo(() => {
     const list = []
     const targetDays = activeDay === 'all' ? days : days.filter((d) => d.day === activeDay)
 
     targetDays.forEach((d) => {
       d.schedules.forEach((s, idx) => {
-        if (s.coords && s.coords.lat && s.coords.lng) {
+        if (!s.hideOnMap && s.coords && s.coords.lat && s.coords.lng) {
           list.push({
             ...s,
             day: d.day,
@@ -29,16 +29,16 @@ export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSp
     return list
   }, [days, activeDay])
 
-  // Filter only Osaka spots (excluding airport outside main area for clean local view)
+  // Filter only Osaka spots
   const osakaSpots = useMemo(() => {
-    return displayedSpots.filter((s) => s.coords.lat < 36.0)
+    return displayedSpots.filter((s) => !s.hideOnMap && s.coords.lat < 36.0)
   }, [displayedSpots])
 
   // Current selected spot
   const [selectedSpot, setSelectedSpot] = useState(null)
 
   useEffect(() => {
-    if (focusedItem && focusedItem.coords) {
+    if (focusedItem && focusedItem.coords && !focusedItem.hideOnMap) {
       setSelectedSpot(focusedItem)
     } else if (osakaSpots.length > 0) {
       setSelectedSpot(osakaSpots[0])
