@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { ChevronUp, Heart, Sparkles, AlertCircle } from 'lucide-react'
+import { ChevronUp, Heart } from 'lucide-react'
 import travelData from './data/travelPlan.json'
 import Header from './components/Header'
 import DayTabs from './components/DayTabs'
 import TimelineList from './components/TimelineList'
-import GoogleMapView from './components/GoogleMapView'
 import MapViewModal from './components/MapViewModal'
 import BottomNav from './components/BottomNav'
 
@@ -70,10 +69,10 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col font-sans selection:bg-rose-500 selection:text-white pb-16">
+    <div className="min-h-screen bg-slate-200/80 flex flex-col font-sans selection:bg-secondary-500 selection:text-white pb-16">
       {/* 1. Header (여행제목, 여행기간, 🗺️ 동선보기 버튼) */}
       <Header
-        title={travelData.tripInfo?.title || '260829 오사카여행'}
+        title={travelData.tripInfo?.title || '큰누랑 짜우의 오사카 여행'}
         period={`${travelData.tripInfo?.startDate || '8.29'} ~ ${travelData.tripInfo?.endDate || '8.31'}`}
         onOpenMapModal={() => setIsMapModalOpen(true)}
       />
@@ -102,8 +101,8 @@ export default function App() {
         ) : (
           /* 위시리스트 탭: 사용자 피드백에 따라 임의 구현 없이 하단 탭 스케치 유지 */
           <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-6 bg-white rounded-3xl border border-slate-200 shadow-sm space-y-3">
-            <div className="w-14 h-14 rounded-full bg-rose-50 flex items-center justify-center text-rose-500">
-              <Heart className="w-7 h-7 fill-rose-500" />
+            <div className="w-14 h-14 rounded-full bg-secondary-950 flex items-center justify-center text-secondary-500">
+              <Heart className="w-7 h-7 fill-secondary-500" />
             </div>
             <h2 className="text-base font-extrabold text-slate-900">위시리스트</h2>
             <p className="text-xs text-slate-500 max-w-xs leading-relaxed">
@@ -133,7 +132,7 @@ export default function App() {
       {showTopBtn && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-16 right-4 z-30 w-10 h-10 rounded-full bg-slate-900 text-white shadow-xl flex items-center justify-center transition-all hover:bg-rose-600 active:scale-95"
+          className="fixed bottom-16 right-4 z-30 w-10 h-10 rounded-full bg-slate-900 text-white shadow-xl flex items-center justify-center transition-all hover:bg-slate-800 active:scale-95"
           aria-label="맨 위로 이동"
           title="맨 위로 이동"
         >

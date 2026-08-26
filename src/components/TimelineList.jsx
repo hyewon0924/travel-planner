@@ -1,6 +1,21 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import TimelineCard from './TimelineCard'
 import { Calendar } from 'lucide-react'
+
+// 스케줄의 시각(time) 및 timePeriod("오전"/"오후")를 분 단위 숫자로 변환하는 헬퍼
+const parseTimeToMinutes = (timeStr, period) => {
+  if (!timeStr) return 0
+  const parts = timeStr.split(':')
+  let hours = parseInt(parts[0], 10)
+  const minutes = parseInt(parts[1] || '0', 10)
+
+  if (period === '오후' && hours < 12) {
+    hours += 12
+  } else if (period === '오전' && hours === 12) {
+    hours = 0
+  }
+  return hours * 60 + minutes
+}
 
 export default function TimelineList({
   days,
@@ -24,6 +39,21 @@ export default function TimelineList({
     scheduleMapRef.current = map
   }, [displayedDays])
 
+  // 현재 시각State (기본값: 실제 현재시각)
+  const [currentMinutes, setCurrentMinutes] = useState(() => {
+    const now = new Date()
+    return now.getHours() * 60 + now.getMinutes()
+  })
+
+  // 매 1분마다 현재시각 업데이트
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const now = new Date()
+      setCurrentMinutes(now.getHours() * 60 + now.getMinutes())
+    }, 60000)
+    return () => clearInterval(timer)
+  }, [])
+
   const containerRef = useRef(null)
 
   return (
@@ -31,24 +61,55 @@ export default function TimelineList({
       {displayedDays.map((dayData) => {
         const hasSchedules = dayData.schedules && dayData.schedules.length > 0
 
+        // 해당 Day에서의 현재 진행 중 스케줄(Active Schedule) 인덱스 계산
+        let currentActiveIdx = -1
+        if (hasSchedules) {
+          // 각 일정의 시작 분 구하기
+          const scheduleMinutes = dayData.schedules.map((s) =>
+            parseTimeToMinutes(s.time, s.timePeriod)
+          )
+
+          // 1) 만약 사용자가 지정한 테스트 시각 (오전 9:10 등 9:15 이전)이거나 현재 시각이 첫 일정 이상일 때
+          // 9:10 (550분)은 7:00 (420분) ~ 9:15 (555분) 사이이므로 0번째(1번 일정) 선택됨.
+          for (let i = 0; i < dayData.schedules.length; i++) {
+            const startMin = scheduleMinutes[i]
+            const nextMin = i < dayData.schedules.length - 1 ? scheduleMinutes[i + 1] : 24 * 60
+
+            if (currentMinutes >= startMin && currentMinutes < nextMin) {
+              currentActiveIdx = i
+              break
+            }
+          }
+
+          // 만약 현재 시각이 첫 일정(7:00)보다 이전이더라도, Day 1인 경우 1번 일정을 기본 활성 상태로 강조
+          if (currentActiveIdx === -1 && dayData.day === 1) {
+            currentActiveIdx = 0
+          }
+        }
+
         return (
           <div key={dayData.day} className="space-y-3">
             {/* Schedules Timeline Cards */}
             {hasSchedules ? (
               <div className="pt-2">
-                {dayData.schedules.map((schedule, idx) => (
-                  <TimelineCard
-                    key={schedule.id}
-                    item={schedule}
-                    index={idx}
-                    dayNumber={dayData.day}
-                    isVisited={visitedItems.includes(schedule.id)}
-                    onToggleVisited={onToggleVisited}
-                    onFocusOnMap={onFocusOnMap}
-                    isSelected={selectedItemId === schedule.id}
-                    isLast={idx === dayData.schedules.length - 1}
-                  />
-                ))}
+                {dayData.schedules.map((schedule, idx) => {
+                  const isCurrentActive = idx === currentActiveIdx
+
+                  return (
+                    <TimelineCard
+                      key={schedule.id}
+                      item={schedule}
+                      index={idx}
+                      dayNumber={dayData.day}
+                      isVisited={visitedItems.includes(schedule.id)}
+                      onToggleVisited={onToggleVisited}
+                      onFocusOnMap={onFocusOnMap}
+                      isSelected={selectedItemId === schedule.id}
+                      isCurrentActive={isCurrentActive}
+                      isLast={idx === dayData.schedules.length - 1}
+                    />
+                  )
+                })}
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center min-h-[40vh] text-center p-8 bg-white/70 rounded-3xl border border-slate-200 shadow-xs my-4 space-y-2">

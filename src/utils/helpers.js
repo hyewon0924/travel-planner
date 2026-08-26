@@ -1,60 +1,60 @@
 export const CATEGORY_CONFIG = {
   flight: {
     label: '항공',
-    bg: 'bg-sky-100 text-sky-700 border-sky-200',
-    iconColor: '#0284c7',
-    markerColor: '#0284c7'
+    bg: 'bg-primary-950 text-primary-500 border-primary-900',
+    iconColor: '#2909f6',
+    markerColor: '#2909f6'
   },
   transit: {
-    label: '이동',
-    bg: 'bg-emerald-100 text-emerald-700 border-emerald-200',
-    iconColor: '#059669',
-    markerColor: '#059669'
+    label: '대중교통',
+    bg: 'bg-background-950 text-background-400 border-background-800',
+    iconColor: '#3333cc',
+    markerColor: '#3333cc'
   },
   hotel: {
     label: '숙소',
-    bg: 'bg-indigo-100 text-indigo-700 border-indigo-200',
-    iconColor: '#4f46e5',
-    markerColor: '#4f46e5'
+    bg: 'bg-text-950 text-text-400 border-text-900',
+    iconColor: '#140c5a',
+    markerColor: '#140c5a'
   },
   food: {
-    label: '맛집',
-    bg: 'bg-amber-100 text-amber-700 border-amber-200',
-    iconColor: '#d97706',
-    markerColor: '#d97706'
+    label: '식당',
+    bg: 'bg-secondary-950 text-secondary-500 border-secondary-900',
+    iconColor: '#fb0442',
+    markerColor: '#fb0442'
   },
   cafe: {
-    label: '디저트/카페',
-    bg: 'bg-pink-100 text-pink-700 border-pink-200',
-    iconColor: '#db2777',
-    markerColor: '#db2777'
+    label: '카페',
+    bg: 'bg-secondary-950 text-secondary-600 border-secondary-900',
+    iconColor: '#fc3668',
+    markerColor: '#fc3668'
   },
   shopping: {
     label: '쇼핑',
-    bg: 'bg-purple-100 text-purple-700 border-purple-200',
-    iconColor: '#9333ea',
-    markerColor: '#9333ea'
+    bg: 'bg-accent-950 text-accent-500 border-accent-900',
+    iconColor: '#f6098f',
+    markerColor: '#f6098f'
   },
   sightseeing: {
     label: '관광',
-    bg: 'bg-rose-100 text-rose-700 border-rose-200',
-    iconColor: '#e11d48',
-    markerColor: '#e11d48'
+    bg: 'bg-primary-950 text-primary-600 border-primary-900',
+    iconColor: '#533af8',
+    markerColor: '#533af8'
   },
   activity: {
-    label: '엔터/문화',
-    bg: 'bg-cyan-100 text-cyan-700 border-cyan-200',
-    iconColor: '#0891b2',
-    markerColor: '#0891b2'
+    label: '기타',
+    bg: 'bg-background-900 text-text-200 border-background-800',
+    iconColor: '#1e1287',
+    markerColor: '#1e1287'
   }
 }
 
 export const getCategoryInfo = (category) => {
   return CATEGORY_CONFIG[category] || {
     label: '기타',
-    bg: 'bg-slate-100 text-slate-700 border-slate-200',
-    iconColor: '#64748b',
-    markerColor: '#64748b'
+    bg: 'bg-background-900 text-text-200 border-background-800',
+    iconColor: '#1e1287',
+    markerColor: '#1e1287'
   }
 }
 

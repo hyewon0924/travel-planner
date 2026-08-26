@@ -3,7 +3,7 @@ import { Map, Calendar } from 'lucide-react'
 
 export default function Header({ title, period, onOpenMapModal }) {
   return (
-    <header className="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-20">
+    <header className="bg-white border-b border-slate-200 shadow-xs sticky top-0 z-20">
       <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
         {/* 여행제목 & 여행기간 */}
         <div>
@@ -19,10 +19,10 @@ export default function Header({ title, period, onOpenMapModal }) {
         {/* 🗺️ 동선보기 버튼 */}
         <button
           onClick={onOpenMapModal}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold text-xs shadow-sm transition-all active:scale-95 group"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 font-bold text-xs shadow-2xs transition-all active:scale-95 group"
           title="이동 동선 전체지도 보기"
         >
-          <Map className="w-4 h-4 text-rose-500 group-hover:scale-110 transition-transform" />
+          <Map className="w-4 h-4 text-slate-500 group-hover:scale-110 transition-transform" />
           <span>동선보기</span>
         </button>
       </div>

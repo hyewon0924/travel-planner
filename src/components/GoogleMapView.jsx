@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import { Compass, MapPin } from 'lucide-react'
-import { getCategoryInfo } from '../utils/helpers'
+import { Compass } from 'lucide-react'
 
 export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSpot }) {
   const mapContainerRef = useRef(null)
@@ -79,19 +78,19 @@ export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSp
 
   const markersRef = useRef({})
 
-  // Function to build marker HTML
+  // Function to build marker HTML using design system colors
   const createMarkerIcon = (seqNum, isSelected) => {
     const iconHtml = `
       <div class="relative flex items-center justify-center transition-all duration-300 transform -translate-x-1/2 -translate-y-1/2">
         ${
           isSelected
-            ? `<div class="absolute -inset-2 bg-rose-500/40 rounded-full animate-ping"></div>`
+            ? `<div class="absolute -inset-2 bg-[#fb0442]/40 rounded-full animate-ping"></div>`
             : ''
         }
         <div class="w-8 h-8 rounded-full ${
           isSelected
-            ? 'bg-rose-600 text-white ring-4 ring-rose-300 scale-125 z-50 shadow-2xl font-black'
-            : 'bg-slate-900 text-white border-2 border-rose-500 shadow-lg hover:scale-110 font-bold'
+            ? 'bg-[#fb0442] text-white ring-4 ring-[#ffe6ec] scale-125 z-50 shadow-2xl font-black'
+            : 'bg-[#2909f6] text-white border-2 border-[#533af8] shadow-lg hover:scale-110 font-bold'
         } flex items-center justify-center text-xs transition-all duration-200">
           ${seqNum}
         </div>
@@ -130,7 +129,7 @@ export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSp
 
       // Outer glow line
       L.polyline(latLngs, {
-        color: '#f43f5e',
+        color: '#fb0442',
         weight: 8,
         opacity: 0.3,
         lineCap: 'round',
@@ -139,7 +138,7 @@ export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSp
 
       // Inner dashed path line
       L.polyline(latLngs, {
-        color: '#e11d48',
+        color: '#533af8',
         weight: 4,
         opacity: 0.95,
         dashArray: '8, 8',
@@ -197,11 +196,11 @@ export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSp
   }, [selectedSpot, osakaSpots])
 
   return (
-    <div className="relative w-full h-full min-h-[300px] bg-slate-900 rounded-3xl overflow-hidden border border-slate-800 shadow-xl">
+    <div className="relative w-full h-full min-h-[300px] bg-background-50 rounded-3xl overflow-hidden border border-background-200 shadow-xl">
       {/* Top Header Bar (Floating overlay over map) */}
-      <div className="absolute top-3 left-3 right-3 z-20 p-2 sm:p-2.5 bg-slate-900/90 border border-slate-700/80 backdrop-blur-md rounded-2xl flex items-center justify-between gap-1.5 sm:gap-2 shadow-lg">
+      <div className="absolute top-3 left-3 right-3 z-20 p-2 sm:p-2.5 bg-background-50/90 border border-background-200/80 backdrop-blur-md rounded-2xl flex items-center justify-between gap-1.5 sm:gap-2 shadow-lg">
         <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
-          <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center border border-rose-500/30 flex-shrink-0">
+          <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-primary-950 text-primary-500 flex items-center justify-center border border-primary-900 flex-shrink-0">
             <Compass className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </div>
           <div className="min-w-0">
@@ -209,7 +208,7 @@ export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSp
               <span className="text-xs sm:text-sm font-bold text-white truncate">
                 {activeDay === 'all' ? '전체 동선' : `Day ${activeDay}`}
               </span>
-              <span className="text-[10px] bg-rose-500 text-white font-bold px-1.5 py-0.2 rounded-full whitespace-nowrap flex-shrink-0">
+              <span className="text-[10px] bg-secondary-500 text-white font-bold px-1.5 py-0.2 rounded-full whitespace-nowrap flex-shrink-0">
                 {osakaSpots.length}곳
               </span>
             </div>
@@ -220,20 +219,19 @@ export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSp
           {/* Fit Bounds Button */}
           <button
             onClick={handleFitBounds}
-            className="flex items-center gap-1 text-[11px] bg-slate-800/90 hover:bg-slate-700 text-slate-200 font-semibold px-2 py-1 rounded-lg sm:rounded-xl border border-slate-700 transition active:scale-95 whitespace-nowrap shadow-sm"
+            className="flex items-center gap-1 text-[11px] bg-primary-600 hover:bg-primary-500 text-white font-semibold px-2.5 py-1 rounded-lg sm:rounded-xl border border-primary-600 transition active:scale-95 whitespace-nowrap shadow-xs"
             title="현재 날짜 동선 전체 한눈에 보기"
           >
-            <Compass className="w-3.5 h-3.5 text-rose-400 flex-shrink-0" />
+            <Compass className="w-3.5 h-3.5 text-white flex-shrink-0" />
             <span>전체 보기</span>
           </button>
         </div>
       </div>
 
       {/* Interactive Map View */}
-      <div className="w-full h-full bg-slate-950">
+      <div className="w-full h-full bg-background-50">
         <div ref={mapContainerRef} className="w-full h-full min-h-[300px] z-0" />
       </div>
     </div>
   )
 }
-

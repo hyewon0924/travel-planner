@@ -1,5 +1,5 @@
 import React from 'react'
-import { Calendar, Heart } from 'lucide-react'
+import { Heart } from 'lucide-react'
 
 export default function BottomNav({ activeTab, onSelectTab }) {
   return (
@@ -10,15 +10,15 @@ export default function BottomNav({ activeTab, onSelectTab }) {
           onClick={() => onSelectTab('schedule')}
           className={`flex flex-col items-center gap-0.5 py-1 px-5 rounded-2xl transition-all ${
             activeTab === 'schedule'
-              ? 'text-rose-600 font-black scale-105'
-              : 'text-slate-500 font-semibold hover:text-slate-800'
+              ? 'text-slate-900 font-black scale-105'
+              : 'text-slate-500 font-semibold hover:text-slate-700'
           }`}
         >
           <div
             className={`w-7 h-7 rounded-xl flex items-center justify-center border-2 ${
               activeTab === 'schedule'
-                ? 'border-rose-500 bg-rose-50'
-                : 'border-slate-300 bg-slate-50'
+                ? 'border-slate-900 bg-slate-900 text-white'
+                : 'border-slate-300 bg-slate-100 text-slate-600'
             }`}
           >
             <span className="text-xs font-black">31</span>
@@ -31,18 +31,18 @@ export default function BottomNav({ activeTab, onSelectTab }) {
           onClick={() => onSelectTab('wishlist')}
           className={`flex flex-col items-center gap-0.5 py-1 px-5 rounded-2xl transition-all ${
             activeTab === 'wishlist'
-              ? 'text-rose-600 font-black scale-105'
-              : 'text-slate-500 font-semibold hover:text-slate-800'
+              ? 'text-secondary-500 font-black scale-105'
+              : 'text-slate-500 font-semibold hover:text-slate-700'
           }`}
         >
           <div
             className={`w-7 h-7 rounded-xl flex items-center justify-center ${
-              activeTab === 'wishlist' ? 'text-rose-500' : 'text-slate-400'
+              activeTab === 'wishlist' ? 'text-secondary-500' : 'text-slate-600'
             }`}
           >
             <Heart
               className={`w-5 h-5 ${
-                activeTab === 'wishlist' ? 'fill-rose-500 text-rose-500' : 'text-slate-400'
+                activeTab === 'wishlist' ? 'fill-secondary-500 text-secondary-500' : 'text-slate-600'
               }`}
             />
           </div>

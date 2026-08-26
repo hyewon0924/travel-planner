@@ -9,7 +9,7 @@
   }
 
   body {
-    @apply bg-slate-100 text-slate-800 min-h-screen;
+    @apply bg-slate-200/80 text-slate-900 min-h-screen;
     overscroll-behavior-y: none;
   }
 }
@@ -60,20 +60,4 @@
 
 .animate-fade-in {
   animation: fadeIn 0.25s ease-out forwards;
-}
-
-/* Pulse badge */
-@keyframes pulseGlow {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.75;
-    transform: scale(1.08);
-  }
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 2s infinite ease-in-out;
 }
