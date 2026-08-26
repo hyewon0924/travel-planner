@@ -29,11 +29,12 @@
           "categoryLabel": "항공",
           "title": "인천공항 집합",
           "transitInfo": null,
-          "location": "인천국제공항 제1터미널",
+          "location": null,
           "mapUrl": null,
           "floorInfo": null,
           "businessHours": null,
           "memo": null,
+          "cost": null,
           "extraLinks": [],
           "hideOnMap": true,
           "coords": { "lat": 37.4602, "lng": 126.4407 }
@@ -51,7 +52,8 @@
           "mapUrl": null,
           "floorInfo": null,
           "businessHours": null,
-          "memo": "이스타항공 ZE611 <br> 인천 ➔ 간사이 공항 (비짓재팬 사전등록)",
+          "memo": "이스타항공 ZE611 / 인천 ➔ 간사이 공항 (비짓재팬 사전등록)",
+          "cost": null,
           "extraLinks": [],
           "hideOnMap": true,
           "coords": { "lat": 37.4602, "lng": 126.4407 }
@@ -65,11 +67,12 @@
           "categoryLabel": "항공",
           "title": "간사이공항 도착",
           "transitInfo": null,
-          "location": "간사이국제공항 제1터미널",
+          "location": null,
           "mapUrl": null,
           "floorInfo": null,
           "businessHours": null,
           "memo": null,
+          "cost": null,
           "extraLinks": [],
           "hideOnMap": true,
           "coords": { "lat": 34.4347, "lng": 135.2441 }
@@ -84,10 +87,11 @@
           "title": "난카이 공항급행",
           "transitInfo": "간사이공항 ➔ 난카이난바역",
           "location": null,
-          "mapUrl": "https://maps.app.goo.gl/NRsFf8mejhJe8UL4A",
+          "mapUrl": "https://maps.app.goo.gl/NRsFF8mejhJe8UL4A",
           "floorInfo": null,
           "businessHours": null,
           "memo": "급행 시간표: 11:39, 11:56, 12:09",
+          "cost": "970엔",
           "extraLinks": [
             { "label": "급행시간표", "url": "https://www.nankai.co.jp/kr_railway/access-timetable" },
             { "label": "이코카 구매 및 충전 방법", "url": "https://blog.naver.com/ryujin2919/223853561581" }
@@ -109,6 +113,7 @@
           "floorInfo": null,
           "businessHours": null,
           "memo": null,
+          "cost": "190엔",
           "extraLinks": [],
           "hideOnMap": false,
           "coords": { "lat": 34.6896, "lng": 135.5057 }
@@ -127,6 +132,7 @@
           "floorInfo": null,
           "businessHours": null,
           "memo": "QR 한글메뉴판",
+          "cost": null,
           "extraLinks": [],
           "hideOnMap": false,
           "coords": { "lat": 34.6908, "lng": 135.5028 }
@@ -141,13 +147,14 @@
           "title": "파르코 신사이바시",
           "transitInfo": "[미도스지선] 요도야바시 ➔ 신사이바시역 이동 ➔ 도보",
           "location": "파르코 신사이바시",
-          "mapUrl": "https://maps.app.goo.gl/971M6v6twotwnoae6",
+          "mapUrl": "https://maps.app.goo.gl/971M6v6twtncae6",
           "floorInfo": [
             "6F: 치이카와랜드, 키디랜드, 팝마트",
             "3F: 하브스 과일크레이프케이크"
           ],
           "businessHours": null,
           "memo": "할인쿠폰 X",
+          "cost": "190엔",
           "extraLinks": [],
           "hideOnMap": false,
           "coords": { "lat": 34.6738, "lng": 135.5008 }
@@ -168,6 +175,7 @@
           ],
           "businessHours": null,
           "memo": null,
+          "cost": null,
           "extraLinks": [
             { "label": "1F: 3000엔 이상 구매 시 5% 할인쿠폰", "url": "https://dmdepart.jp/fl/coupon/k" }
           ],
@@ -188,6 +196,7 @@
           "floorInfo": null,
           "businessHours": null,
           "memo": "면세 X",
+          "cost": null,
           "extraLinks": [],
           "hideOnMap": false,
           "coords": { "lat": 34.6728, "lng": 135.5015 }
@@ -206,6 +215,7 @@
           "floorInfo": null,
           "businessHours": null,
           "memo": "도톤보리 구경 / 가챠",
+          "cost": null,
           "extraLinks": [],
           "hideOnMap": false,
           "coords": { "lat": 34.6687, "lng": 135.5013 }
@@ -224,6 +234,7 @@
           "floorInfo": null,
           "businessHours": "17:00~",
           "memo": "구글맵에서 예약 가능 / 영화시간 확인 후 예약",
+          "cost": null,
           "extraLinks": [],
           "hideOnMap": false,
           "coords": { "lat": 34.6670, "lng": 135.5034 }
@@ -235,31 +246,54 @@
           "duration": null,
           "category": "etc",
           "categoryLabel": "기타",
-          "title": "마마마 / 치이카와 영화 관람",
-          "transitInfo": "도보",
-          "location": "토호시네마 난바본관",
-          "mapUrl": "https://maps.app.goo.gl/HwFsweHPfARQRUAXA",
+          "title": "자유시간",
+          "transitInfo": null,
+          "location": null,
+          "mapUrl": null,
           "floorInfo": null,
           "businessHours": null,
-          "memo": "관람일로부터 2일전부터 예매가능",
+          "memo": null,
+          "cost": null,
           "extraLinks": [],
           "hideOnMap": false,
-          "coords": { "lat": 34.6659, "lng": 135.5019 }
+          "coords": { "lat": 34.6687, "lng": 135.5013 }
         },
         {
           "id": "d1-13",
-          "time": "10:00",
+          "time": "8:00",
+          "timePeriod": "오후",
+          "duration": null,
+          "category": "etc",
+          "categoryLabel": "기타",
+          "title": "마마마 / 치이카와 영화 관람",
+          "transitInfo": "지하철",
+          "location": "토호시네마 우메다",
+          "mapUrl": "https://maps.app.goo.gl/8AwfAMetVwUJw9AB6",
+          "floorInfo": [
+            "hepnavio 8F"
+          ],
+          "businessHours": null,
+          "memo": "마마마 발푸르기스의 회천 (21:00~23:15) / 본관 스크린 1\n치이카와 인어섬의 비밀 (21:20~23:15) / 본관 스크린 2 / 구입번호 4381, 전화번호 1047097972",
+          "cost": "190엔",
+          "extraLinks": [],
+          "hideOnMap": false,
+          "coords": { "lat": 34.7032, "lng": 135.5002 }
+        },
+        {
+          "id": "d1-14",
+          "time": "11:20",
           "timePeriod": "오후",
           "duration": null,
           "category": "hotel",
           "categoryLabel": "숙소",
           "title": "숙소 체크인",
-          "transitInfo": "[미도스지선] 난바 ➔ 요도야바시역 이동 ➔ 호텔 케이한 요도야바시",
+          "transitInfo": "[미도스지선] 우메다 ➔ 요도야바시역 이동 ➔ 호텔 케이한 요도야바시",
           "location": "호텔 케이한 요도야바시",
           "mapUrl": "https://maps.app.goo.gl/NnEAJnResjgC8rJ39",
           "floorInfo": null,
           "businessHours": null,
           "memo": "숙소 주변 편의점 털기",
+          "cost": "190엔",
           "extraLinks": [],
           "hideOnMap": false,
           "coords": { "lat": 34.6896, "lng": 135.5057 }
