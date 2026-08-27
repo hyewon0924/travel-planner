@@ -193,7 +193,7 @@ export default function WishlistSection() {
                 </div>
               </div>
 
-              {/* 2열 그리드 배치 (구매완료 상품 맨 아래 자동 정렬 적용) */}
+              {/* 2열 그리드 배치 */}
               {!isCollapsed && (
                 <div className="grid grid-cols-2 gap-2.5 transition-all animate-fade-in">
                   {sortedItems.map((item) => {
