@@ -89,9 +89,6 @@ export default function TimelineCard({
     Boolean(item.memo) ||
     (item.extraLinks && item.extraLinks.length > 0) ||
     Boolean(item.mapUrl)
-
-  const isHighlighted = isCurrentActive
-
   // 장소명 클립보드 복사 처리
   const handleCopyLocation = (e) => {
     e.stopPropagation()
@@ -100,7 +97,7 @@ export default function TimelineCard({
 
     const onSuccess = () => {
       if (onShowToast) {
-        onShowToast(`'${textToCopy}' 장소명이 복사되었습니다.`)
+        onShowToast(`장소명이 복사되었습니다.`)
       }
     }
 
@@ -127,14 +124,8 @@ export default function TimelineCard({
 
       {/* 1. 타임라인 좌측: 원형 번호 ①②③ + 시각/소요시간 */}
       <div className="flex flex-col items-center flex-shrink-0 w-12 pt-0.5 relative z-10">
-        {/* 원형 인디케이터 번호 (투명도 없이 100% 불투명 유지) */}
-        <div
-          className={`w-6 h-6 rounded-full aspect-square flex-shrink-0 flex items-center justify-center text-xs font-black transition-all ${
-            isHighlighted
-              ? 'bg-secondary-500 text-white shadow-lg ring-4 ring-secondary-950/40 scale-110'
-              : 'bg-slate-900 text-white shadow-md'
-          }`}
-        >
+        {/* 원형 인디케이터 번호 */}
+        <div className="w-6 h-6 rounded-full aspect-square flex-shrink-0 flex items-center justify-center text-xs font-black transition-all bg-slate-900 text-white shadow-md">
           {index + 1}
         </div>
 
@@ -159,11 +150,7 @@ export default function TimelineCard({
             onFocusOnMap(item, true)
           }
         }}
-        className={`flex-1 rounded-2xl border-2 px-3 py-2.5 transition-all duration-200 cursor-pointer shadow-sm relative z-10 border-slate-800 hover:border-secondary-500 hover:shadow-md ${
-          isHighlighted
-            ? 'ring-2 ring-secondary-950/30 bg-secondary-950/40'
-            : 'bg-slate-50/85'
-        }`}
+        className="flex-1 rounded-2xl border-2 px-3 py-2.5 transition-all duration-200 cursor-pointer shadow-sm relative z-10 border-slate-800 bg-slate-50/85"
       >
         {/* 헤더: 장소명 (주요일정) & 아래 구분 뱃지 + location 뱃지 */}
         <div className={`space-y-0.5 ${hasSubContent ? 'mb-2' : ''}`}>
@@ -289,7 +276,7 @@ export default function TimelineCard({
                       const cleanName = (loc.name || '').split('/')[0].trim()
                       if (navigator.clipboard && navigator.clipboard.writeText) {
                         navigator.clipboard.writeText(cleanName).then(() => {
-                          if (onShowToast) onShowToast(`'${cleanName}' 장소명이 복사되었습니다.`)
+                          if (onShowToast) onShowToast(`장소명이 복사되었습니다.`)
                         })
                       }
                     }}

@@ -35,6 +35,11 @@ export default function App() {
     })
   }
 
+  // Day 변경 시 자동으로 맨 위로 스크롤 이동
+  useEffect(() => {
+    scrollToTop()
+  }, [activeDay])
+
   // Visited state stored in localStorage
   const [visitedItems, setVisitedItems] = useState(() => {
     const saved = localStorage.getItem('osaka_visited_items')
