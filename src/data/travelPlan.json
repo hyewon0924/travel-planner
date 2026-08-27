@@ -73,7 +73,10 @@
           "businessHours": null,
           "memo": null,
           "cost": null,
-          "extraLinks": [],
+          "extraLinks": [
+            { "label": "비짓재팬 입국 10분 컷", "url": "https://www.instagram.com/reel/Dam6qzHRLU4/?igsi=MW9kNjIxbDZmcHhlZg==" },
+            { "label": "ATM 이용방법", "url": "https://www.instagram.com/reel/DZkRx9BS9Wo/?igsi=MXgwcWlpdXR3MTE1MA=="}
+          ],
           "hideOnMap": true,
           "coords": { "lat": 34.4347, "lng": 135.2441 }
         },

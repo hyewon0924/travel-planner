@@ -232,10 +232,10 @@ export default function WishlistSection() {
                               type="button"
                               onClick={(e) => togglePurchased(item.id, e)}
                               title={isPurchased ? '구매 취소' : '구매 완료 체크'}
-                              className={`absolute top-1.5 right-1.5 z-10 w-7 h-7 rounded-full flex items-center justify-center transition-all ${
+                              className={`absolute top-1.5 right-1.5 z-10 w-7 h-7 rounded-full flex items-center justify-center transition-all outline-none focus:outline-none ${
                                 isPurchased
                                   ? 'bg-emerald-600 text-white border border-emerald-500 shadow-md scale-105'
-                                  : 'bg-white/90 backdrop-blur-sm border border-slate-300 text-slate-400 hover:text-emerald-600 hover:border-emerald-500 shadow-xs hover:scale-110'
+                                  : 'bg-white/90 backdrop-blur-sm border border-slate-300 text-slate-400 hover:text-slate-700 hover:border-slate-400 shadow-xs active:scale-95'
                               }`}
                             >
                               <Check className={`w-4 h-4 ${isPurchased ? 'stroke-[3]' : 'stroke-[2.5]'}`} />
