@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react'
+import { createPortal } from 'react-dom'
 import { ShoppingBag, Store, CheckCircle2, Check, Search, ChevronDown, ChevronUp } from 'lucide-react'
 import shoppingData from '../data/shoppingList.json'
 
@@ -283,23 +284,28 @@ export default function WishlistSection() {
         })
       )}
 
-      {/* 이미지 확대 모달 */}
-      {previewImage && (
-        <div
-          onClick={() => setPreviewImage(null)}
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
-        >
-          <div className="relative max-w-sm w-full bg-white rounded-3xl overflow-hidden shadow-2xl p-2 border-2 border-slate-800">
-            <img src={previewImage} alt="상품 큰 이미지" className="w-full h-auto rounded-2xl max-h-[70vh] object-contain mx-auto" />
-            <button
-              onClick={() => setPreviewImage(null)}
-              className="mt-2 w-full py-2 bg-slate-900 text-white rounded-xl text-xs font-bold"
+      {/* 이미지 확대 모달 (React Portal로 document.body 최상단 마운트 및 z-[100] 오버레이) */}
+      {previewImage &&
+        createPortal(
+          <div
+            onClick={() => setPreviewImage(null)}
+            className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4"
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-sm w-full bg-white rounded-3xl overflow-hidden shadow-2xl p-2 border-2 border-slate-800 animate-fade-in"
             >
-              닫기
-            </button>
-          </div>
-        </div>
-      )}
+              <img src={previewImage} alt="상품 큰 이미지" className="w-full h-auto rounded-2xl max-h-[70vh] object-contain mx-auto" />
+              <button
+                onClick={() => setPreviewImage(null)}
+                className="mt-2 w-full py-2.5 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-slate-800 transition-all active:scale-[0.99]"
+              >
+                닫기
+              </button>
+            </div>
+          </div>,
+          document.body
+        )}
     </div>
   )
 }

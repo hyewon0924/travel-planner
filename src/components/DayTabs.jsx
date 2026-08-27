@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function DayTabs({ days, activeDay, onSelectDay, activeTab }) {
   return (
-    <div className="sticky top-[57px] z-20 bg-white/90 backdrop-blur-md border-b border-slate-200 py-3 px-4 shadow-xs">
+    <div className="bg-white/95 backdrop-blur-md border-b border-slate-200 py-2.5 px-4 shadow-xs">
       <div className="max-w-md mx-auto flex items-center justify-start gap-2 overflow-x-auto no-scrollbar">
         {activeTab === 'schedule' ? (
           /* 일정 탭: Day 1, Day 2, Day 3 버튼만 노출 */
@@ -26,11 +26,12 @@ export default function DayTabs({ days, activeDay, onSelectDay, activeTab }) {
             )
           })
         ) : (
-          /* 위시리스트 탭: 짜우 버튼 (보라색 알약 형태, 깔끔한 그림자 및 테두리) */
+          /* 위시리스트 탭: 짜우 버튼 */
           <button
             className="px-4 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 bg-purple-600 text-white shadow-md border border-purple-400"
           >
             <span>짜우</span>
+            <span className="text-purple-200 text-[11px] font-semibold">위시리스트</span>
           </button>
         )}
       </div>

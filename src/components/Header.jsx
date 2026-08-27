@@ -3,7 +3,7 @@ import { Map, Calendar } from 'lucide-react'
 
 export default function Header({ title, period, onOpenMapModal }) {
   return (
-    <header className="bg-white border-b border-slate-200 shadow-xs sticky top-0 z-20">
+    <header className="bg-white pt-[env(safe-area-inset-top,0px)] border-b border-slate-100">
       <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
         {/* 여행제목 & 여행기간 */}
         <div>

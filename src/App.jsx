@@ -85,23 +85,24 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-200/80 flex flex-col font-sans selection:bg-secondary-500 selection:text-white pb-16">
-      {/* 1. Header (여행제목, 여행기간, 🗺️ 동선보기 버튼) */}
-      <Header
-        title={travelData.tripInfo?.title || '큰누랑 짜우의 오사카 여행'}
-        period={`${travelData.tripInfo?.startDate || '8.29'} ~ ${travelData.tripInfo?.endDate || '8.31'}`}
-        onOpenMapModal={() => setIsMapModalOpen(true)}
-      />
+      {/* 1. Integrated Sticky Header & DayTabs (스크롤 시 간격 좁혀짐 완벽 방지) */}
+      <div className="sticky top-0 z-30 shadow-xs">
+        <Header
+          title={travelData.tripInfo?.title || '큰누랑 짜우의 오사카 여행'}
+          period={`${travelData.tripInfo?.startDate || '8.29'} ~ ${travelData.tripInfo?.endDate || '8.31'}`}
+          onOpenMapModal={() => setIsMapModalOpen(true)}
+        />
 
-      {/* 2. Day Tabs & 짜우 Tab (Sticky Header) */}
-      <DayTabs
-        days={travelData.days}
-        activeDay={activeDay}
-        onSelectDay={setActiveDay}
-        activeTab={activeTab}
-        onSelectTab={setActiveTab}
-      />
+        <DayTabs
+          days={travelData.days}
+          activeDay={activeDay}
+          onSelectDay={setActiveDay}
+          activeTab={activeTab}
+          onSelectTab={setActiveTab}
+        />
+      </div>
 
-      {/* 3. Main Content Container */}
+      {/* 2. Main Content Container */}
       <main className="flex-1 max-w-md w-full mx-auto px-4 py-4">
         {activeTab === 'schedule' ? (
           /* 일정 탭: 스케치 형태의 타임라인 리스트 */
@@ -115,12 +116,12 @@ export default function App() {
             onShowToast={handleShowToast}
           />
         ) : (
-          /* 위시리스트 탭: 짜우 쇼핑 위시리스트 (store별 구분, 2열 배치, 뱃지, 설명) */
+          /* 위시리스트 탭 */
           <WishlistSection />
         )}
       </main>
 
-      {/* 4. [🗺️ 동선보기] 지도 모달 */}
+      {/* 3. [🗺️ 동선보기] 지도 모달 */}
       <MapViewModal
         isOpen={isMapModalOpen}
         onClose={() => setIsMapModalOpen(false)}
@@ -130,7 +131,7 @@ export default function App() {
         onSelectSpot={(spot) => handleFocusOnMap(spot, false)}
       />
 
-      {/* 5. 하단 네비게이션 바 ([31 일정] [🤍 위시리스트]) */}
+      {/* 4. 하단 네비게이션 바 */}
       <BottomNav
         activeTab={activeTab}
         onSelectTab={setActiveTab}
