@@ -4,6 +4,7 @@ import travelData from './data/travelPlan.json'
 import Header from './components/Header'
 import DayTabs from './components/DayTabs'
 import TimelineList from './components/TimelineList'
+import WishlistSection from './components/WishlistSection'
 import MapViewModal from './components/MapViewModal'
 import BottomNav from './components/BottomNav'
 
@@ -35,10 +36,10 @@ export default function App() {
     })
   }
 
-  // Day 변경 시 자동으로 맨 위로 스크롤 이동
+  // Day 변경 시 또는 Tab 변경 시 맨 위로 스크롤 이동
   useEffect(() => {
     scrollToTop()
-  }, [activeDay])
+  }, [activeDay, activeTab])
 
   // Visited state stored in localStorage
   const [visitedItems, setVisitedItems] = useState(() => {
@@ -91,14 +92,14 @@ export default function App() {
         onOpenMapModal={() => setIsMapModalOpen(true)}
       />
 
-      {/* 2. Day Tabs (Sticky Header) */}
-      {activeTab === 'schedule' && (
-        <DayTabs
-          days={travelData.days}
-          activeDay={activeDay}
-          onSelectDay={setActiveDay}
-        />
-      )}
+      {/* 2. Day Tabs & 짜우 Tab (Sticky Header) */}
+      <DayTabs
+        days={travelData.days}
+        activeDay={activeDay}
+        onSelectDay={setActiveDay}
+        activeTab={activeTab}
+        onSelectTab={setActiveTab}
+      />
 
       {/* 3. Main Content Container */}
       <main className="flex-1 max-w-md w-full mx-auto px-4 py-4">
@@ -114,20 +115,12 @@ export default function App() {
             onShowToast={handleShowToast}
           />
         ) : (
-          /* 위시리스트 탭: 사용자 피드백에 따라 임의 구현 없이 하단 탭 스케치 유지 */
-          <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-6 bg-white rounded-3xl border border-slate-200 shadow-sm space-y-3">
-            <div className="w-14 h-14 rounded-full bg-secondary-950 flex items-center justify-center text-secondary-500">
-              <Heart className="w-7 h-7 fill-secondary-500" />
-            </div>
-            <h2 className="text-base font-extrabold text-slate-900">위시리스트</h2>
-            <p className="text-xs text-slate-500 max-w-xs leading-relaxed">
-              위시리스트 탭 영역입니다.
-            </p>
-          </div>
+          /* 위시리스트 탭: 짜우 쇼핑 위시리스트 (store별 구분, 2열 배치, 뱃지, 설명) */
+          <WishlistSection />
         )}
       </main>
 
-      {/* 4. [🗺️ 동선보기] 지도 모달 (지도 동선 미표기 제외 처리됨) */}
+      {/* 4. [🗺️ 동선보기] 지도 모달 */}
       <MapViewModal
         isOpen={isMapModalOpen}
         onClose={() => setIsMapModalOpen(false)}
@@ -143,25 +136,22 @@ export default function App() {
         onSelectTab={setActiveTab}
       />
 
-      {/* 맨 위로 스크롤 버튼 (지도 모달 z-[100] 아래로 가려지도록 z-30 지정) */}
+      {/* 맨 위로 스크롤 버튼 */}
       {showTopBtn && (
         <button
           onClick={scrollToTop}
           className="fixed bottom-20 right-4 z-30 w-10 h-10 rounded-full bg-slate-900 text-white shadow-xl flex items-center justify-center transition-all hover:bg-slate-800 active:scale-95 border border-slate-700"
-          aria-label="맨 위로 이동"
-          title="맨 위로 이동"
+          aria-label="Back to top"
         >
-          <ChevronUp className="w-5 h-5 text-white" />
+          <ChevronUp className="w-5 h-5" />
         </button>
       )}
 
-      {/* 6. 전역 토스트 팝업 (최상단 z-[110] 지정) */}
+      {/* 토스트 메시지 */}
       {toastText && (
-        <div className="fixed bottom-20 left-0 right-0 z-[110] flex justify-center px-4 pointer-events-none animate-fade-in">
-          <div className="bg-slate-900/95 text-white text-[11px] font-extrabold px-4 py-2.5 rounded-2xl shadow-2xl flex items-center justify-center gap-2 border border-slate-700 max-w-xs w-full text-center leading-snug">
-            <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-            <span className="break-keep">{toastText}</span>
-          </div>
+        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-slate-900/90 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg backdrop-blur-sm border border-slate-700/80 animate-fade-in flex items-center gap-1.5">
+          <Check className="w-4 h-4 text-emerald-400" />
+          <span>{toastText}</span>
         </div>
       )}
     </div>
