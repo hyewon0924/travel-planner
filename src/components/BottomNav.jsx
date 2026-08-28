@@ -3,7 +3,14 @@ import { Heart } from 'lucide-react'
 
 export default function BottomNav({ activeTab, onSelectTab }) {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-200 shadow-lg py-2 px-4">
+    <nav
+      className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-200 shadow-lg pt-2 px-4"
+      style={{
+        paddingBottom: 'calc(0.5rem + env(safe-area-inset-bottom, 0px))',
+        transform: 'translateZ(0)',
+        WebkitTransform: 'translateZ(0)'
+      }}
+    >
       <div className="max-w-md mx-auto flex items-center justify-around">
         {/* 일정 탭 */}
         <button

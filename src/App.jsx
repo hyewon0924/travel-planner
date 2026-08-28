@@ -25,6 +25,7 @@ export default function App() {
         setShowTopBtn(false)
       }
     }
+
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -84,8 +85,11 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-200/80 flex flex-col font-sans selection:bg-secondary-500 selection:text-white pb-16">
-      {/* 1. Integrated Sticky Header & DayTabs (스크롤 시 간격 좁혀짐 완벽 방지) */}
+    <div
+      className="min-h-screen bg-slate-200/80 flex flex-col font-sans selection:bg-secondary-500 selection:text-white"
+      style={{ paddingBottom: 'calc(4.5rem + env(safe-area-inset-bottom, 0px))' }}
+    >
+      {/* 1. Integrated Header & DayTabs (상단 스티키 헤더) */}
       <div className="sticky top-0 z-30 shadow-xs">
         <Header
           title={travelData.tripInfo?.title || '큰누랑 짜우의 오사카 여행'}
@@ -141,7 +145,8 @@ export default function App() {
       {showTopBtn && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-20 right-4 z-30 w-10 h-10 rounded-full bg-slate-900 text-white shadow-xl flex items-center justify-center transition-all hover:bg-slate-800 active:scale-95 border border-slate-700"
+          style={{ bottom: 'calc(4.5rem + env(safe-area-inset-bottom, 0px))' }}
+          className="fixed right-4 z-30 w-10 h-10 rounded-full bg-slate-900 text-white shadow-xl flex items-center justify-center transition-all hover:bg-slate-800 active:scale-95 border border-slate-700"
           aria-label="Back to top"
         >
           <ChevronUp className="w-5 h-5" />
@@ -150,7 +155,10 @@ export default function App() {
 
       {/* 토스트 메시지 */}
       {toastText && (
-        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-slate-900/90 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg backdrop-blur-sm border border-slate-700/80 animate-fade-in flex items-center gap-1.5">
+        <div
+          style={{ bottom: 'calc(4.5rem + env(safe-area-inset-bottom, 0px))' }}
+          className="fixed left-1/2 -translate-x-1/2 z-50 bg-slate-900/90 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg backdrop-blur-sm border border-slate-700/80 animate-fade-in flex items-center gap-1.5"
+        >
           <Check className="w-4 h-4 text-emerald-400" />
           <span>{toastText}</span>
         </div>
