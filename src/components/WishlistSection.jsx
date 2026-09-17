@@ -1,27 +1,68 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 import { ShoppingBag, Store, CheckCircle2, Check, Search, ChevronDown, ChevronUp } from 'lucide-react'
 import shoppingData from '../data/shoppingList.json'
 
-export default function WishlistSection() {
+export default function WishlistSection({ trip, tripId }) {
+  const currentTripId = tripId || trip?.id || 'osaka-default'
+
+  // 여행별 위시리스트 데이터 추출 (오사카인 경우 기본 쇼핑 데이터 제공, 제주도 및 기타는 trip.wishlist 제공)
+  const wishlistItems = useMemo(() => {
+    if (trip && Array.isArray(trip.wishlist)) {
+      return trip.wishlist
+    }
+    if (currentTripId === 'osaka-default') {
+      return shoppingData
+    }
+    return []
+  }, [trip, currentTripId])
+
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('전체')
   const [purchasedIds, setPurchasedIds] = useState(() => {
     try {
-      const saved = localStorage.getItem('osaka_shopping_purchased')
-      return saved ? JSON.parse(saved) : []
+      const storageKey = `shopping_purchased_${currentTripId}`
+      const saved = localStorage.getItem(storageKey)
+      if (saved) return JSON.parse(saved)
+      if (currentTripId === 'osaka-default') {
+        const osakaSaved = localStorage.getItem('osaka_shopping_purchased')
+        return osakaSaved ? JSON.parse(osakaSaved) : []
+      }
+      return []
     } catch {
       return []
     }
   })
   const [previewImage, setPreviewImage] = useState(null)
 
+  // 여행 ID가 변경될 때 구매 상태 불러오기
+  useEffect(() => {
+    try {
+      const storageKey = `shopping_purchased_${currentTripId}`
+      const saved = localStorage.getItem(storageKey)
+      if (saved) {
+        setPurchasedIds(JSON.parse(saved))
+      } else if (currentTripId === 'osaka-default') {
+        const osakaSaved = localStorage.getItem('osaka_shopping_purchased')
+        setPurchasedIds(osakaSaved ? JSON.parse(osakaSaved) : [])
+      } else {
+        setPurchasedIds([])
+      }
+    } catch {
+      setPurchasedIds([])
+    }
+  }, [currentTripId])
+
   // Save purchased state
   const togglePurchased = (id, e) => {
     if (e) e.stopPropagation()
     setPurchasedIds((prev) => {
       const next = prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
-      localStorage.setItem('osaka_shopping_purchased', JSON.stringify(next))
+      try {
+        localStorage.setItem(`shopping_purchased_${currentTripId}`, JSON.stringify(next))
+      } catch (err) {
+        console.error('Failed to save purchased state:', err)
+      }
       return next
     })
   }
@@ -29,18 +70,18 @@ export default function WishlistSection() {
   // Extract unique main categories
   const categories = useMemo(() => {
     const set = new Set()
-    shoppingData.forEach((item) => {
+    wishlistItems.forEach((item) => {
       if (item.category) {
         const mainCat = item.category.split('/')[0].trim()
         set.add(mainCat)
       }
     })
     return ['전체', ...Array.from(set)]
-  }, [])
+  }, [wishlistItems])
 
   // Filter items based on search and category includes
   const filteredItems = useMemo(() => {
-    return shoppingData.filter((item) => {
+    return wishlistItems.filter((item) => {
       const matchSearch =
         item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (item.description && item.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
@@ -52,7 +93,7 @@ export default function WishlistSection() {
 
       return matchSearch && matchCategory
     })
-  }, [searchQuery, selectedCategory])
+  }, [searchQuery, selectedCategory, wishlistItems])
 
   // Group items by store
   const groupedByStore = useMemo(() => {
@@ -89,6 +130,46 @@ export default function WishlistSection() {
     })
   }
 
+  // 위시리스트 항목이 아예 없는 경우 빈 상태 표시
+  if (wishlistItems.length === 0) {
+    const tripTitle = trip?.tripInfo?.title || '여행'
+    return (
+      <div className="space-y-4 pb-12 animate-fade-in">
+        <div className="bg-white rounded-2xl p-3.5 border-2 border-slate-800 shadow-sm space-y-2.5">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-slate-900 text-white flex items-center justify-center shadow-xs">
+                <ShoppingBag className="w-4 h-4 text-purple-300" />
+              </div>
+              <div>
+                <h2 className="text-xs font-extrabold text-slate-900 flex items-center gap-1.5">
+                  {tripTitle} 쇼핑 위시리스트
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 font-bold border border-purple-200">
+                    0개
+                  </span>
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl p-8 text-center border-2 border-slate-800 shadow-sm space-y-3 my-4">
+          <div className="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
+            <ShoppingBag className="w-6 h-6 text-slate-400" />
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-xs font-extrabold text-slate-800">등록된 위시리스트가 없습니다</h3>
+            <p className="text-[11px] font-medium text-slate-500">
+              {tripTitle}에는 아직 위시리스트 아이템이 등록되지 않았습니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  const titleHeader = currentTripId === 'osaka-default' ? '짜우 쇼핑 위시리스트' : `${trip?.tripInfo?.title || '여행'} 쇼핑 위시리스트`
+
   return (
     <div className="space-y-4 pb-12">
       {/* 타이틀 및 요약 헤더 */}
@@ -100,9 +181,9 @@ export default function WishlistSection() {
             </div>
             <div>
               <h2 className="text-xs font-extrabold text-slate-900 flex items-center gap-1.5">
-                짜우 쇼핑 위시리스트
+                {titleHeader}
                 <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 font-bold border border-purple-200">
-                  구매 완료: {purchasedIds.length} / {shoppingData.length}개
+                  구매 완료: {purchasedIds.length} / {wishlistItems.length}개
                 </span>
               </h2>
             </div>

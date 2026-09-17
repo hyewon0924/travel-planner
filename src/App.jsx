@@ -157,7 +157,7 @@ export default function App() {
           />
         ) : (
           /* 위시리스트 탭 */
-          <WishlistSection />
+          <WishlistSection trip={activeTrip} tripId={activeTripId} />
         )}
       </main>
 
@@ -187,7 +187,7 @@ export default function App() {
       {showTopBtn && (
         <button
           onClick={scrollToTop}
-          style={{ bottom: 'calc(4.5rem + env(safe-area-inset-bottom, 0px))' }}
+          style={{ bottom: 'calc(5.75rem + env(safe-area-inset-bottom, 0px))' }}
           className="fixed right-4 z-30 w-10 h-10 rounded-full bg-slate-900 text-white shadow-xl flex items-center justify-center transition-all hover:bg-slate-800 active:scale-95 border border-slate-700"
           aria-label="Back to top"
         >
@@ -198,7 +198,7 @@ export default function App() {
       {/* 토스트 메시지 (모바일 및 전 기기 완전 중앙 정렬 래퍼) */}
       {toastText && (
         <div
-          style={{ bottom: 'calc(4.5rem + env(safe-area-inset-bottom, 0px))' }}
+          style={{ bottom: 'calc(5.75rem + env(safe-area-inset-bottom, 0px))' }}
           className="fixed inset-x-0 z-50 flex justify-center items-center pointer-events-none px-4"
         >
           <div className="bg-slate-900/95 text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-2xl backdrop-blur-md border border-slate-700/80 animate-fade-in flex items-center gap-1.5 pointer-events-auto whitespace-nowrap max-w-full">

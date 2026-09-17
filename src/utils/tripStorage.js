@@ -24,14 +24,14 @@ export const defaultTrips = [jejuTrip, osakaTrip]
  */
 export function sortTripsByDate(tripsList) {
   return [...tripsList].sort((a, b) => {
-    const startA = a.tripInfo?.startDate || '9999-99-99'
-    const startB = b.tripInfo?.startDate || '9999-99-99'
-    return startA.localeCompare(startB)
+    const startA = a.tripInfo?.startDate || '0000-00-00'
+    const startB = b.tripInfo?.startDate || '0000-00-00'
+    return startB.localeCompare(startA)
   })
 }
 
 /**
- * 저장된 여행 목록 가져오기 (없으면 기본 오사카 & 제주도 여행으로 초기화)
+ * 저장된 여행 목록 가져오기 (없으면 기본 제주도 & 오사카 여행으로 초기화)
  */
 export function getStoredTrips() {
   try {
@@ -49,8 +49,8 @@ export function getStoredTrips() {
         const hasOsaka = currentTrips.some((t) => t.id === 'osaka-default')
         const hasJeju = currentTrips.some((t) => t.id === 'jeju-2026')
 
-        if (!hasOsaka) currentTrips.unshift(osakaTrip)
-        if (!hasJeju) currentTrips.unshift(jejuTrip)
+        if (!hasOsaka) currentTrips.push(osakaTrip)
+        if (!hasJeju) currentTrips.push(jejuTrip)
 
         saveTrips(currentTrips)
         return sortTripsByDate(currentTrips)
@@ -60,7 +60,7 @@ export function getStoredTrips() {
     console.error('Failed to load stored trips:', e)
   }
   
-  // 기본 데이터 저장 후 반환
+  // 기본 데이터 저장 후 반환 (최신 날짜순 정렬)
   const initialTrips = [jejuTrip, osakaTrip]
   saveTrips(initialTrips)
   return sortTripsByDate(initialTrips)
@@ -78,9 +78,10 @@ export function saveTrips(trips) {
 }
 
 /**
- * 현재 선택된 여행 ID 가져오기
+ * 현재 선택된 여행 ID 가져오기 (기본값: 가장 최근 여행 일정)
  */
 export function getActiveTripId(trips) {
+  const sorted = sortTripsByDate(trips)
   try {
     const savedId = localStorage.getItem(STORAGE_KEY_ACTIVE_ID)
     if (savedId && trips.some((t) => t.id === savedId)) {
@@ -89,7 +90,7 @@ export function getActiveTripId(trips) {
   } catch (e) {
     console.error('Failed to load active trip ID:', e)
   }
-  return trips[0]?.id || 'osaka-default'
+  return sorted[0]?.id || 'jeju-2026'
 }
 
 /**

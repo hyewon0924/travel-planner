@@ -23,7 +23,7 @@ export default function TripManagerModal({
               <Plane className="w-4 h-4 text-white" />
             </div>
             <div>
-              <h2 className="text-base font-bold leading-tight">빠른 여행 선택</h2>
+              <h2 className="text-base font-bold leading-tight">여행 선택</h2>
               <p className="text-[11px] text-slate-300 font-medium">
                 원하시는 여행을 선택하면 일정 정보로 바로 이동합니다
               </p>
