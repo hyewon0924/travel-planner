@@ -15,8 +15,12 @@ export default function MapViewModal({ isOpen, onClose, days, activeDay, focused
               <MapPin className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-sm font-bold text-white">오버뷰 (동선 미표기 제외)</h2>
-              <p className="text-[11px] text-slate-400">Day {activeDay} 이동 경로 및 장소</p>
+              <h2 className="text-sm sm:text-base font-extrabold text-white">
+                Day {activeDay === 'all' ? '전체' : activeDay} 전체 동선보기
+              </h2>
+              <p className="text-[10.5px] text-slate-400">
+                지도에서 순번 마커 및 상세 이동 경로를 한눈에 확인하세요 (동선 미표기/후보지 제외)
+              </p>
             </div>
           </div>
 

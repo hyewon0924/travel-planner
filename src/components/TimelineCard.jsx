@@ -69,7 +69,8 @@ export default function TimelineCard({
   isSelected,
   isCurrentActive,
   isLast,
-  onShowToast
+  onShowToast,
+  hideDirectionsButton = false
 }) {
   const badgeInfo = getCategoryBadge(item.category, item.categoryLabel)
 
@@ -80,6 +81,13 @@ export default function TimelineCard({
     ? item.floorInfo.split('/').map((s) => s.trim()).filter(Boolean)
     : []
 
+  // 주차장 정보 배열화 파싱
+  const parkingItems = Array.isArray(item.parkingInfo)
+    ? item.parkingInfo
+    : typeof item.parkingInfo === 'string'
+    ? [item.parkingInfo]
+    : []
+
   const showLoc = Boolean(item.location)
 
   const hasSubContent =
@@ -87,6 +95,7 @@ export default function TimelineCard({
     floorItems.length > 0 ||
     Boolean(item.businessHours) ||
     Boolean(item.memo) ||
+    parkingItems.length > 0 ||
     (item.extraLinks && item.extraLinks.length > 0) ||
     Boolean(item.mapUrl)
   // 장소명 클립보드 복사 처리
@@ -160,8 +169,8 @@ export default function TimelineCard({
               {renderTextWithBreaks(item.title)}
             </h3>
 
-            {/* 🗺️ 동선에 표기되는 장소(!item.hideOnMap && (item.coords || item.locations))만 title 오른쪽에 배경색 없는 헤더 지도 아이콘 노출 */}
-            {!item.hideOnMap && (item.coords || (item.locations && item.locations.length > 0)) && (
+            {/* 🗺️ 동선에 표기되고 mapUrl(또는 locations의 mapUrl)이 존재하는 장소만 title 오른쪽에 헤더 지도 아이콘 노출 */}
+            {!item.hideOnMap && (item.mapUrl || (item.locations && item.locations.some((l) => l.mapUrl))) && (
               <button
                 type="button"
                 onClick={(e) => {
@@ -236,6 +245,20 @@ export default function TimelineCard({
           </div>
         )}
 
+        {/* 🅿️ 주차장 정보 (P 모양 아이콘 + 하나의 row/배열 표기) */}
+        {parkingItems.length > 0 && (
+          <div className="flex items-start gap-1.5 text-[11px] text-blue-950 bg-blue-50/90 border border-blue-200 rounded-xl px-2.5 py-1.5 mb-1.5 font-medium">
+            <div className="w-3.5 h-3.5 rounded-md bg-blue-600 text-white flex items-center justify-center font-black text-[9px] flex-shrink-0 mt-0.5 shadow-2xs">
+              P
+            </div>
+            <div className="flex flex-col gap-0.5 leading-snug">
+              {parkingItems.map((pText, pIdx) => (
+                <span key={pIdx}>{renderTextWithBreaks(pText)}</span>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* 🔗 추가링크 (버튼 형태) */}
         {item.extraLinks && item.extraLinks.length > 0 && (
           <div className="flex items-center gap-1 flex-wrap mb-2 pt-0.5">
@@ -255,103 +278,136 @@ export default function TimelineCard({
           </div>
         )}
 
-        {/* 복수 위치(locations)가 있는 그룹 케이스: 100% 안전한 내장 가로 레이아웃 (넘침 완전 차단) */}
+        {/* 복수 위치(locations)가 있는 그룹 케이스: 100% 안전한 내장 가로 레이아웃 */}
         {item.locations && item.locations.length > 0 && (
           <div className="space-y-1.5 mb-2 pt-1 border-t border-slate-100">
-            {item.locations.map((loc, locIdx) => (
-              <div
-                key={locIdx}
-                className="bg-sky-50/80 border border-sky-200/80 rounded-xl p-2.5 flex flex-col gap-1.5"
-              >
-                {/* 1. 상단: [위치 N] 장소명 + 바로 옆 복사 아이콘 */}
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="text-[9px] font-black bg-sky-200 text-sky-900 px-1.5 py-0.2 rounded-md flex-shrink-0">
-                    위치 {locIdx + 1}
-                  </span>
+            {item.locations.map((loc, locIdx) => {
+              const showLocMap = Boolean(loc.mapUrl)
+              const showLocDirections = !hideDirectionsButton
+              const hasLocAction = showLocMap || showLocDirections
+              const locParking = Array.isArray(loc.parkingInfo)
+                ? loc.parkingInfo
+                : typeof loc.parkingInfo === 'string'
+                ? [loc.parkingInfo]
+                : []
 
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      const cleanName = (loc.name || '').split('/')[0].trim()
-                      if (navigator.clipboard && navigator.clipboard.writeText) {
-                        navigator.clipboard.writeText(cleanName).then(() => {
-                          if (onShowToast) onShowToast(`장소명이 복사되었습니다.`)
-                        })
-                      }
-                    }}
-                    title="클릭하여 장소명 복사"
-                    className="inline-flex items-center gap-1 text-[11px] font-extrabold text-slate-900 hover:text-sky-700 transition cursor-pointer min-w-0 group"
-                  >
-                    <span className="break-all text-left">{loc.name}</span>
-                    <Copy className="w-2.5 h-2.5 text-sky-500 opacity-80 group-hover:opacity-100 flex-shrink-0 ml-0.5" />
-                  </button>
-                </div>
+              return (
+                <div
+                  key={locIdx}
+                  className="bg-sky-50/80 border border-sky-200/80 rounded-xl p-2.5 flex flex-col gap-1.5"
+                >
+                  {/* 1. 상단: [위치 N] 장소명 + 바로 옆 복사 아이콘 */}
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className="text-[9px] font-black bg-sky-200 text-sky-900 px-1.5 py-0.2 rounded-md flex-shrink-0">
+                      위치 {locIdx + 1}
+                    </span>
 
-                {/* 2. 메모 */}
-                {loc.memo && (
-                  <p className="text-[10px] font-medium text-slate-600 leading-tight pl-0.5">
-                    🗒️ {loc.memo}
-                  </p>
-                )}
-
-                {/* 3. 하단: [지도] [길찾기] 슬림 액션 가로 바 (가로 100% 핏) */}
-                <div className="flex items-center gap-1.5 pt-0.5">
-                  {loc.mapUrl && (
-                    <a
-                      href={loc.mapUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="flex-1 h-6 flex items-center justify-center gap-1 text-[10px] font-bold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg transition active:scale-95 shadow-2xs"
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        const cleanName = (loc.name || '').split('/')[0].trim()
+                        if (navigator.clipboard && navigator.clipboard.writeText) {
+                          navigator.clipboard.writeText(cleanName).then(() => {
+                            if (onShowToast) onShowToast(`장소명이 복사되었습니다.`)
+                          })
+                        }
+                      }}
+                      title="클릭하여 장소명 복사"
+                      className="inline-flex items-center gap-1 text-[11px] font-extrabold text-slate-900 hover:text-sky-700 transition cursor-pointer min-w-0 group"
                     >
-                      <Map className="w-2.5 h-2.5 text-slate-600" />
-                      <span>지도</span>
-                    </a>
+                      <span className="break-all text-left">{loc.name}</span>
+                      <Copy className="w-2.5 h-2.5 text-sky-500 opacity-80 group-hover:opacity-100 flex-shrink-0 ml-0.5" />
+                    </button>
+                  </div>
+
+                  {/* 2. 메모 */}
+                  {loc.memo && (
+                    <p className="text-[10px] font-medium text-slate-600 leading-tight pl-0.5">
+                      {renderTextWithBreaks(loc.memo)}
+                    </p>
                   )}
 
-                  <a
-                    href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent((loc.name || '').split('/')[0].trim())}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="flex-1 h-6 flex items-center justify-center gap-1 text-[10px] font-bold text-white bg-primary-600 hover:bg-primary-500 border border-primary-600 rounded-lg transition active:scale-95 shadow-2xs"
-                  >
-                    <Navigation className="w-2.5 h-2.5 text-white" />
-                    <span>길찾기</span>
-                  </a>
+                  {/* 🅿️ 위치별 주차장 정보 */}
+                  {locParking.length > 0 && (
+                    <div className="flex items-start gap-1.5 text-[10.5px] text-blue-950 bg-blue-100/70 border border-blue-200 rounded-lg px-2 py-1 font-medium">
+                      <div className="w-3.5 h-3.5 rounded-md bg-blue-600 text-white flex items-center justify-center font-black text-[8.5px] flex-shrink-0 mt-0.5">
+                        P
+                      </div>
+                      <div className="flex flex-col gap-0.5 leading-snug">
+                        {locParking.map((pText, pIdx) => (
+                          <span key={pIdx}>{renderTextWithBreaks(pText)}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 3. 하단: [지도] [길찾기] 액션 바 (표시 가능한 액션이 있는 경우에만) */}
+                  {hasLocAction && (
+                    <div className="flex items-center gap-1.5 pt-0.5">
+                      {showLocMap && (
+                        <a
+                          href={loc.mapUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex-1 h-6 flex items-center justify-center gap-1 text-[10px] font-bold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg transition active:scale-95 shadow-2xs"
+                        >
+                          <Map className="w-2.5 h-2.5 text-slate-600" />
+                          <span>지도</span>
+                        </a>
+                      )}
+
+                      {showLocDirections && (
+                        <a
+                          href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent((loc.name || '').split('/')[0].trim())}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex-1 h-6 flex items-center justify-center gap-1 text-[10px] font-bold text-white bg-primary-600 hover:bg-primary-500 border border-primary-600 rounded-lg transition active:scale-95 shadow-2xs"
+                        >
+                          <Navigation className="w-2.5 h-2.5 text-white" />
+                          <span>길찾기</span>
+                        </a>
+                      )}
+                    </div>
+                  )}
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         )}
 
-        {/* 하단 액션 버튼: [지도보기] [길찾기] (단일 mapUrl이 있는 경우에만 표시) */}
-        {item.mapUrl && (!item.locations || item.locations.length === 0) && (
+        {/* 하단 액션 버튼: [지도보기] [길찾기] (단일 항목 & 표시 가능한 버튼이 하나라도 있는 경우에만 표시) */}
+        {(!item.locations || item.locations.length === 0) && (Boolean(item.mapUrl) || !hideDirectionsButton) && (
           <div className="flex items-center gap-1.5 pt-1.5 border-t border-slate-100 mt-1.5">
-            {/* 📍 지도보기 버튼 (왼쪽: 흰색 배경) */}
-            <a
-              href={getMapUrl(item)}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="flex-1 h-8 flex items-center justify-center gap-1 text-[11px] font-bold text-slate-800 bg-white hover:bg-slate-50 border border-slate-300 rounded-xl transition active:scale-95 shadow-2xs box-border"
-            >
-              <Map className="w-3.5 h-3.5 text-slate-600" />
-              <span>지도보기</span>
-            </a>
+            {/* 📍 지도보기 버튼 (item.mapUrl 이 존재하는 경우에만 표시) */}
+            {Boolean(item.mapUrl) && (
+              <a
+                href={getMapUrl(item)}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="flex-1 h-8 flex items-center justify-center gap-1 text-[11px] font-bold text-slate-800 bg-white hover:bg-slate-50 border border-slate-300 rounded-xl transition active:scale-95 shadow-2xs box-border"
+              >
+                <Map className="w-3.5 h-3.5 text-slate-600" />
+                <span>지도보기</span>
+              </a>
+            )}
 
-            {/* 📍 길찾기 버튼 (오른쪽: 디자인시스템 Primary 강조색) */}
-            <a
-              href={getDirectionsUrl(item)}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="flex-1 h-8 flex items-center justify-center gap-1 text-[11px] font-bold text-white bg-primary-600 hover:bg-primary-500 border border-primary-600 rounded-xl transition active:scale-95 shadow-xs box-border"
-            >
-              <Navigation className="w-3.5 h-3.5 text-white" />
-              <span>길찾기</span>
-            </a>
+            {/* 📍 길찾기 버튼 (hideDirectionsButton이 false일 경우만 노출) */}
+            {!hideDirectionsButton && (
+              <a
+                href={getDirectionsUrl(item)}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="flex-1 h-8 flex items-center justify-center gap-1 text-[11px] font-bold text-white bg-primary-600 hover:bg-primary-500 border border-primary-600 rounded-xl transition active:scale-95 shadow-xs box-border"
+              >
+                <Navigation className="w-3.5 h-3.5 text-white" />
+                <span>길찾기</span>
+              </a>
+            )}
           </div>
         )}
       </div>

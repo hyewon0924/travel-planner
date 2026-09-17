@@ -8,19 +8,25 @@ export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSp
   const mapInstanceRef = useRef(null)
   const layerGroupRef = useRef(null)
 
-  // Filter spots to display based on activeDay (excluding hideOnMap spots)
-  const displayedSpots = useMemo(() => {
+  // Filter spots to display based on activeDay
+  // 조건: !s.hideOnMap AND 좌표 존재 AND 장소 후보지가 2곳 이상이면 미노출 (locations.length < 2)
+  const validSpots = useMemo(() => {
     const list = []
     const targetDays = activeDay === 'all' ? days : days.filter((d) => d.day === activeDay)
 
     targetDays.forEach((d) => {
-      d.schedules.forEach((s, idx) => {
-        if (!s.hideOnMap && s.coords && s.coords.lat && s.coords.lng) {
+      let seqNum = 1
+      d.schedules.forEach((s) => {
+        const isMultipleLocations = Array.isArray(s.locations) && s.locations.length >= 2
+        const hasCoords = Boolean(s.coords && s.coords.lat && s.coords.lng)
+
+        // 장소명 후보지가 2곳 이상이거나 hideOnMap인 경우 동선 지극에서 미노출
+        if (!s.hideOnMap && !isMultipleLocations && hasCoords) {
           list.push({
             ...s,
             day: d.day,
             dayDate: d.date,
-            seqNumber: idx + 1
+            seqNumber: seqNum++
           })
         }
       })
@@ -28,23 +34,18 @@ export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSp
     return list
   }, [days, activeDay])
 
-  // Filter only Osaka spots
-  const osakaSpots = useMemo(() => {
-    return displayedSpots.filter((s) => !s.hideOnMap && s.coords.lat < 36.0)
-  }, [displayedSpots])
-
   // Current selected spot
   const [selectedSpot, setSelectedSpot] = useState(null)
 
   useEffect(() => {
-    if (focusedItem && focusedItem.coords && !focusedItem.hideOnMap) {
+    if (focusedItem && focusedItem.coords && !focusedItem.hideOnMap && !(focusedItem.locations && focusedItem.locations.length >= 2)) {
       setSelectedSpot(focusedItem)
-    } else if (osakaSpots.length > 0) {
-      setSelectedSpot(osakaSpots[0])
+    } else if (validSpots.length > 0) {
+      setSelectedSpot(validSpots[0])
     } else {
       setSelectedSpot(null)
     }
-  }, [focusedItem, activeDay, osakaSpots])
+  }, [focusedItem, activeDay, validSpots])
 
   // Initialize Leaflet Map
   useEffect(() => {
@@ -115,12 +116,12 @@ export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSp
   // Helper to fit map to all spots of the current day
   const handleFitBounds = () => {
     const map = mapInstanceRef.current
-    if (!map || osakaSpots.length === 0) return
-    const bounds = L.latLngBounds(osakaSpots.map((s) => [s.coords.lat, s.coords.lng]))
+    if (!map || validSpots.length === 0) return
+    const bounds = L.latLngBounds(validSpots.map((s) => [s.coords.lat, s.coords.lng]))
     map.fitBounds(bounds, { padding: [60, 60], maxZoom: 15, animate: true })
   }
 
-  // Update Markers & Polylines when osakaSpots changes
+  // Update Markers & Polylines when validSpots changes
   useEffect(() => {
     const map = mapInstanceRef.current
     const layerGroup = layerGroupRef.current
@@ -129,11 +130,11 @@ export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSp
     layerGroup.clearLayers()
     markersRef.current = {}
 
-    if (osakaSpots.length === 0) return
+    if (validSpots.length === 0) return
 
     // 1. Draw Polyline Route (Connecting spots in sequence)
-    if (osakaSpots.length > 1) {
-      const latLngs = osakaSpots.map((s) => [s.coords.lat, s.coords.lng])
+    if (validSpots.length > 1) {
+      const latLngs = validSpots.map((s) => [s.coords.lat, s.coords.lng])
 
       // Outer glow line
       L.polyline(latLngs, {
@@ -156,7 +157,7 @@ export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSp
     }
 
     // 2. Draw Numbered Markers with Title Badges
-    osakaSpots.forEach((spot, idx) => {
+    validSpots.forEach((spot, idx) => {
       const isSelected = selectedSpot && selectedSpot.id === spot.id
 
       const marker = L.marker([spot.coords.lat, spot.coords.lng], {
@@ -177,7 +178,7 @@ export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSp
 
     // Auto-fit bounds ONLY on Day change
     handleFitBounds()
-  }, [osakaSpots])
+  }, [validSpots])
 
   // Update selected spot highlight & smooth pan
   useEffect(() => {
@@ -185,7 +186,7 @@ export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSp
     if (!map || !selectedSpot || !selectedSpot.coords) return
 
     // Update marker icons (highlight active, reset others)
-    osakaSpots.forEach((spot, idx) => {
+    validSpots.forEach((spot, idx) => {
       const marker = markersRef.current[spot.id]
       if (marker) {
         const isSelected = spot.id === selectedSpot.id
@@ -199,7 +200,7 @@ export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSp
       animate: true,
       duration: 0.4
     })
-  }, [selectedSpot, osakaSpots])
+  }, [selectedSpot, validSpots])
 
   return (
     <div className="relative w-full h-full min-h-[350px] bg-slate-950 rounded-3xl overflow-hidden border border-slate-800 shadow-xl flex flex-col">
@@ -215,7 +216,7 @@ export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSp
                 {activeDay === 'all' ? '전체 동선 지도' : `Day ${activeDay} 이동 동선`}
               </span>
               <span className="text-[10px] bg-secondary-500 text-white font-extrabold px-2 py-0.2 rounded-full whitespace-nowrap flex-shrink-0">
-                총 {osakaSpots.length}곳
+                총 {validSpots.length}곳
               </span>
             </div>
           </div>
@@ -285,7 +286,7 @@ export default function GoogleMapView({ days, activeDay, focusedItem, onSelectSp
 
           {/* 동선 번호별 칩 버튼 가로 리스트 바 (①, ②, ③... 한눈에 클릭 전환) */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar pt-0.5">
-            {osakaSpots.map((spot, sIdx) => {
+            {validSpots.map((spot, sIdx) => {
               const isCurr = selectedSpot && selectedSpot.id === spot.id
               const seqNum = spot.seqNumber || sIdx + 1
 

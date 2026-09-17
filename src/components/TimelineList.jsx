@@ -24,7 +24,8 @@ export default function TimelineList({
   onToggleVisited,
   onFocusOnMap,
   selectedItemId,
-  onShowToast
+  onShowToast,
+  hideDirectionsButton
 }) {
   const displayedDays = activeDay === 'all' ? days : days.filter((d) => d.day === activeDay)
 
@@ -111,6 +112,7 @@ export default function TimelineList({
                       isCurrentActive={isCurrentActive}
                       isLast={idx === dayData.schedules.length - 1}
                       onShowToast={onShowToast}
+                      hideDirectionsButton={hideDirectionsButton}
                     />
                   )
                 })}
